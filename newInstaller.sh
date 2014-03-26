@@ -18,7 +18,7 @@ tar -zxvf latest.tar.gz
 touch $OUT/"35-Changing directory to Wordpress"
 cd wordpress
 
-touch $OUT/"50-Turning on MySQL."
+touch $OUT/"50-Starting MySQL."
 sudo service mysql start
 
 touch $OUT/"60-Creates mysql database."
