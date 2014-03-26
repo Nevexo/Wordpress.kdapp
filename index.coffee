@@ -162,13 +162,6 @@ class WordpressMainView extends KDView
       @watcher.watch()
       @terminal.runCommand "curl --silent https://raw.githubusercontent.com/glang/wordpress.kdapp/master/newInstaller.sh | bash -s #{session}"
 
-  isWordpressRunning:(callback)->
-    vmc = KD.getSingleton 'vmController'
-    vmc.run "pgrep -f '.koding-WordPress/WordPress.js' -l -u #{KD.nick()}", (err, res)->
-      callback false
-      # if err then callback false
-      # else callback res.split(' ').last
-
 class WordpressController extends AppController
 
   constructor:(options = {}, data)->
