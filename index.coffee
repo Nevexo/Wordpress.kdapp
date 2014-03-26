@@ -84,6 +84,9 @@ class WordpressMainView extends KDView
           <p>You can see some <a href="http://wordpress.org/showcase/">examples </a> of sites that have used WordPress among which 
           include The New York Times Blog, TechCrunch, Flickr, and many others.  <a href="https://codex.wordpress.org/WordPress_Lessons">online tutorials</a>,
            and news on the <a href="https://wordpress.org/news/">WordPress blog</a>.</p>
+           
+          <p><b>NOTE: This app assumes that you have not changed your MySQL password. If you have changed it, then go to "Web/wordpress/wp-config.php" and modify this line by replacing "PUT_YOUR_MYSQL_PW_HERE" with your MySQL password (keep the single quotes around it though!):</b></p> 
+          <p><b>define('DB_PASSWORD', 'PUT_YOUR_MYSQL_PW_HERE');</b></p> 
         """
 
       @checkState()

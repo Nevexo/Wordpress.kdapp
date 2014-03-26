@@ -85,7 +85,12 @@
 
 .WordPress-installer .WordPress-help a {
   text-decoration: none;
-  color: #298E1C;
+  color: #00CC00;
+}
+
+.WordPress-installer .WordPress-help b {
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .WordPress-installer .bar > .light-label
