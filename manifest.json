@@ -13,7 +13,7 @@
   "author": "Granger Lang",
   "authorNick": "glang",
   "repository": "git://github.com/glang/wordpress.kdapp.git",
-  "description": "Wordpress : a Koding application created with the blank template.",
+  "description": "Wordpress : Installs WordPress!",
   "category": "web-app",
   "source": {
     "blocks": {
