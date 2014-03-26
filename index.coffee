@@ -11,7 +11,6 @@ OutPath    = "/tmp/_WordPressinstaller.out"
 wordpressIndex    = "~/Web/wordpress/index.php"
 png = "https://raw.githubusercontent.com/glang/wordpress.kdapp/master/wordpress.png"
 
- 
 class WordpressMainView extends KDView 
 
   constructor:->
@@ -80,34 +79,7 @@ class WordpressMainView extends KDView
           <p>This is an early version of WordPress, a free open-source blogging tool and a content
           management system based on PHP and MySQL which runs on a web hosting service. </p>
           
-          <p>Why should you use WordPress?</p>
-          
-          <ul>
-            <li>
-            <strong>WordPress is Free and Open Source</strong> Unlike other "free" solutions, WordPress is completely free forever.
-            </li>
-            <li>
-            <strong>Plugins That Give You More Power</strong> Plugins allow you to add photo galleries, sliders, shopping carts,
-             forums, maps, and more great functionality.  WordPress includes a searchable, one-click install directory of plugins
-             (like an App Store for WordPress). </li>
-            <li>
-            <strong>Intuitive User-Friendly Backend .</strong>
-            </li>
-            <li>
-            <strong>Themes Allow You To Style Your Site .</strong>
-            </li>
-            <li>
-            <strong>Easy to Update and Keep Secure .</strong>
-            </li>
-            <li>
-            <strong>WordPress Sites are Simple and Accessible .</strong>
-            </li>
-            <li>
-            <strong>Your Sites Can Grow With You.</strong> You can easily upgrade your site with new features and security. 
-            New themes, plugins, and other features can be added without redoing the entire site. 
-            </li>
-
-          </ul>
+          <p>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>
           
           <p>You can see some <a href="http://wordpress.org/showcase/">examples </a> of sites that have used WordPress among which 
           include The New York Times Blog, TechCrunch, Flickr, and many others.  <a href="https://codex.wordpress.org/WordPress_Lessons">online tutorials</a>,
