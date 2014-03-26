@@ -13,7 +13,7 @@
   "author": "Granger Lang",
   "authorNick": "glang",
   "repository": "git://github.com/glang/wordpress.kdapp.git",
-  "description": "Wordpress : Installs WordPress!",
+  "description": "Installs WordPress!",
   "category": "web-app",
   "source": {
     "blocks": {
