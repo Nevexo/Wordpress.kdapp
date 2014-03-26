@@ -1,0 +1,39 @@
+{
+  "experimental": false,
+  "background": false,
+  "hiddenHandle": false,
+  "forceUpdate": false,
+  "behavior": "application",
+  "version": "0.1",
+  "title": "Wordpress",
+  "name": "Wordpress",
+  "identifier": "com.koding.apps.wordpress",
+  "path": "~/Applications/Wordpress.kdapp",
+  "homepage": "glang.kd.io/wordpress",
+  "author": "Granger Lang",
+  "authorNick": "glang",
+  "repository": "git://github.com/glang/wordpress.kdapp.git",
+  "description": "Wordpress : a Koding application created with the blank template.",
+  "category": "web-app",
+  "source": {
+    "blocks": {
+      "app": {
+        "files": [
+          "./index.coffee"
+        ]
+      }
+    },
+    "stylesheets": [
+      "./resources/style.css"
+    ]
+  },
+  "options": {
+    "type": "tab"
+  },
+  "icns": {
+    "128": "./resources/icon.128.png"
+  },
+  "screenshots": [],
+  "menu": [],
+  "fileTypes": []
+}
