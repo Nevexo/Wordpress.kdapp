@@ -40,6 +40,16 @@ echo
 echo
 echo
 echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo sudo service mysql restart
+echo
 sudo service mysql restart
 
 touch $OUT/"60-Creates mysql database."
