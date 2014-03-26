@@ -31,5 +31,5 @@ sed -i -e "s/username_here/"root"/g" wp-config.php
 sed -i -e "s/password_here/""/g" wp-config.php
 
 touch $OUT/"100-WordPress installation completed."
-cd Web
+cd ..
 rm latest.tar.gz
