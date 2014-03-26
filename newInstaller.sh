@@ -17,10 +17,9 @@ tar -zxvf latest.tar.gz
 touch $OUT/"35-Changing directory to Wordpress"
 cd wordpress
 
-echo BEFORE RESTARTING MYSQL COMMAND
+echo Starting MySQL service
 touch $OUT/"50-Starting MySQL."
 sudo service mysql restart
-echo AFTER RESTARTING MYSQL COMMAND
 
 touch $OUT/"60-Creates mysql database."
 mysql -u root -e "CREATE DATABASE wordpress_db;"
