@@ -135,13 +135,6 @@ class WordpressMainView extends KDView
     @button.hide()
     @checkState()
 
-  runCallback:->
-    @_lastRequest = 'run'
-    session = (Math.random() + 1).toString(36).substring 7
-    # @terminal.runCommand "node #{kdbPath}/WordPress.js #{session} &"
-    ###KD.utils.wait 1000, => ###
-    @checkState()
-
   installCallback:->
     @watcher.on 'UpdateProgress', (percentage, status)=>
       @progress.updateBar percentage, '%', status
