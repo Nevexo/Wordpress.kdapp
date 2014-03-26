@@ -32,4 +32,4 @@ sed -i -e "s/password_here/""/g" wp-config.php
 
 touch $OUT/"100-WordPress installation completed."
 cd Web
-rm lastest.tar.gz
+rm latest.tar.gz
