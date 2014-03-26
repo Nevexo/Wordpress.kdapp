@@ -19,6 +19,27 @@ cd wordpress
 
 echo Starting MySQL service
 touch $OUT/"50-Starting MySQL."
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
 sudo service mysql restart
 
 touch $OUT/"60-Creates mysql database."
