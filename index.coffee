@@ -11,7 +11,6 @@ OutPath    = "/tmp/_WordPressinstaller.out"
 wordpressIndex    = "~/Web/wordpress/index.php"
 png = "https://raw.githubusercontent.com/glang/wordpress.kdapp/master/wordpress.png"
 
- 
 class WordpressMainView extends KDView 
 
   constructor:->
@@ -195,7 +194,7 @@ class WordpressMainView extends KDView
       @watcher.stopWatching()
       @watcher.path = tmpOutPath
       @watcher.watch()
-      @terminal.runCommand "curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh | bash -s #{session}"
+      @terminal.runCommand "curl --silent https://raw.githubusercontent.com/glang/wordpress.kdapp/master/newInstaller.sh | bash -s #{session}"
 
   isWordpressRunning:(callback)->
     vmc = KD.getSingleton 'vmController'
