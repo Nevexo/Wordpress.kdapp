@@ -1,4 +1,4 @@
-/* Compiled by kdc on Wed Mar 26 2014 22:38:39 GMT+0000 (UTC) */
+/* Compiled by kdc on Wed Mar 26 2014 22:57:42 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
@@ -151,12 +151,6 @@ WordpressMainView = (function(_super) {
         break;
       case 'run':
         this.button.hide();
-        /*
-        title = "Running Wordpress"
-        style = ''
-        @button.setCallback => @stopCallback()
-        */
-
     }
     this.button.unsetClass('red green');
     this.button.setClass(style);
@@ -166,8 +160,6 @@ WordpressMainView = (function(_super) {
 
   WordpressMainView.prototype.stopCallback = function() {
     this._lastRequest = 'stop';
-    /*KD.utils.wait 3000, =>*/
-
     this.button.hide();
     return this.checkState();
   };

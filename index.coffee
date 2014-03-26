@@ -121,11 +121,7 @@ class WordpressMainView extends KDView
         @button.setCallback => @installCallback()
       when 'run'
         @button.hide()
-        ###
-        title = "Running Wordpress"
-        style = ''
-        @button.setCallback => @stopCallback()
-        ###
+
     @button.unsetClass 'red green'
     @button.setClass style
     @button.setTitle title or "Run WordPress"
@@ -133,8 +129,6 @@ class WordpressMainView extends KDView
 
   stopCallback:->
     @_lastRequest = 'stop'
-    # @terminal.runCommand "pkill -f #{wordpressIndex} -u #{KD.nick()}"
-    ###KD.utils.wait 3000, => ###
     @button.hide()
     @checkState()
 
@@ -146,10 +140,9 @@ class WordpressMainView extends KDView
         @toggle.setState 'Show details'
         @terminal.unsetClass 'in'
         @toggle.unsetClass 'toggle'
-        #test
         @link.setSession "Web/wordpress/index.php"
         @switchState 'run'
-        # @switchState 'run'
+        
       else if percentage is "0"
         @toggle.setState 'Hide details'
         @terminal.setClass 'in'
