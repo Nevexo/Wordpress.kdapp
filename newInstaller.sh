@@ -1,7 +1,6 @@
 #/bin/bash
 dbname="wordpress_db"
 
-
 OUT="/tmp/_WordPressinstaller.out/$1"
 mkdir -p $OUT
 
@@ -19,7 +18,7 @@ touch $OUT/"35-Changing directory to Wordpress"
 cd wordpress
 
 touch $OUT/"50-Starting MySQL."
-sudo service mysql start
+sudo service mysql restart
 
 touch $OUT/"60-Creates mysql database."
 mysql -u root -e "CREATE DATABASE wordpress_db;"
