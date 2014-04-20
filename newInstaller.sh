@@ -50,9 +50,18 @@ echo
 echo
 echo sudo service mysql restart
 echo
+
 sudo service mysql restart
 
 touch $OUT/"99.9-Creating mysql database. Please enter mysql password below:"
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo "now, please enter your mysql pw. If you have not changed it, just press enter."
 mysql -u root -p -e "CREATE DATABASE wordpress_db;"
 
 #create wp config
