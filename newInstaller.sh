@@ -18,7 +18,7 @@ touch $OUT/"35-Changing directory to Wordpress"
 cd wordpress
 
 echo Starting MySQL service
-touch $OUT/"50-Starting MySQL."
+touch $OUT/"99.9-Starting MySQL. Please enter sudo password below:"
 echo
 echo
 echo
@@ -52,8 +52,8 @@ echo sudo service mysql restart
 echo
 sudo service mysql restart
 
-touch $OUT/"60-Creates mysql database."
-mysql -u root -e "CREATE DATABASE wordpress_db;"
+touch $OUT/"99.9-Creating mysql database. Please enter mysql password below:"
+mysql -u root -p -e "CREATE DATABASE wordpress_db;"
 
 #create wp config
 touch $OUT/"70-Creating wp config"

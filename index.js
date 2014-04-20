@@ -1,4 +1,4 @@
-/* Compiled by kdc on Sun Apr 20 2014 04:54:53 GMT+0000 (UTC) */
+/* Compiled by kdc on Sun Apr 20 2014 06:17:31 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
@@ -107,7 +107,7 @@ WordpressMainView = (function(_super) {
       };
       _this.addSubView(_this.content = new KDCustomHTMLView({
         cssClass: "WordPress-help",
-        partial: "<p><b>NOTE: This app assumes that you have not changed your MySQL password. If you have changed it, then go to \"Web/wordpress/wp-config.php\" and modify \"define('DB_PASSWORD', 'PUT_YOUR_MYSQL_PW_HERE');\" below by replacing \"PUT_YOUR_MYSQL_PW_HERE\" with your MySQL password (keep the single quotes around it).</b></p>      \n<p><WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>\n\n<p>You can see some <a href=\"http://wordpress.org/showcase/\">examples </a> of sites that have used WordPress among which \ninclude The New York Times Blog, TechCrunch, Flickr, and many others.  <a href=\"https://codex.wordpress.org/WordPress_Lessons\">online tutorials</a>,\n and news on the <a href=\"https://wordpress.org/news/\">WordPress blog</a>.</p>\n \n"
+        partial: "   \n<p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>\n\n<p>You can see some <a href=\"http://wordpress.org/showcase/\">examples </a> of sites that have used WordPress among which \ninclude The New York Times Blog, TechCrunch, Flickr, and many others.  <a href=\"https://codex.wordpress.org/WordPress_Lessons\">online tutorials</a>,\n and news on the <a href=\"https://wordpress.org/news/\">WordPress blog</a>.</p>\n \n"
       }));
       return _this.checkState();
     });
