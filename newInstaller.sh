@@ -61,8 +61,15 @@ echo
 echo
 echo
 echo
-echo "now, please enter your mysql pw. If you have not changed it, just press enter."
-mysql -u root -p -e "CREATE DATABASE wordpress_db;"
+echo "Next, please enter your MySQL root password." 
+echo
+echo "If you have NOT changed your password, please press enter now and press enter once more when prompted for your password again."
+echo
+echo "If you have changed your password, please enter your password now."
+echo
+printf "Enter password: "
+read password
+mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 
 #create wp config
 touch $OUT/"70-Creating wp config"
@@ -71,7 +78,7 @@ cp wp-config-sample.php wp-config.php
 touch $OUT/"80-Setting up database profiles"
 sed -i -e "s/database_name_here/$dbname/g" wp-config.php
 sed -i -e "s/username_here/"root"/g" wp-config.php
-sed -i -e "s/password_here/""/g" wp-config.php
+sed -i -e "s/password_here/$password/g" wp-config.php
 
 touch $OUT/"100-WordPress installation completed."
 cd ..

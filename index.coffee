@@ -8,7 +8,7 @@ class LogWatcher extends FSWatcher
 
 domain     = "#{KD.nick()}.kd.io"
 OutPath    = "/tmp/_WordPressinstaller.out"
-wordpressIndex    = "~/Web/wordpress/index.php"
+wordpressIndex    = "~/Web/wordpress/wp-config.php"
 png = "https://raw.githubusercontent.com/glang/wordpress.kdapp/master/wordpress.png"
 
 class WordpressMainView extends KDView 
