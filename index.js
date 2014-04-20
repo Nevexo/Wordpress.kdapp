@@ -1,4 +1,4 @@
-/* Compiled by kdc on Sun Apr 20 2014 21:24:00 GMT+0000 (UTC) */
+/* Compiled by kdc on Sun Apr 20 2014 22:40:25 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
@@ -190,7 +190,8 @@ WordpressMainView = (function(_super) {
       _this.watcher.stopWatching();
       _this.watcher.path = tmpOutPath;
       _this.watcher.watch();
-      return _this.terminal.runCommand("curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh | bash -s " + session);
+      _this.terminal.runCommand("wget https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh");
+      return _this.terminal.runCommand("sh newInstaller.sh | bash -s " + session);
     });
   };
 

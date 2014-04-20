@@ -153,7 +153,8 @@ class WordpressMainView extends KDView
       @watcher.path = tmpOutPath
       @watcher.watch()
       @terminal.runCommand "curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh | bash -s #{session}"
-
+      #@terminal.runCommand("wget https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh")
+      #@terminal.runCommand("sh newInstaller.sh")
 class WordpressController extends AppController
 
   constructor:(options = {}, data)->

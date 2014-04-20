@@ -70,7 +70,6 @@ echo
 printf "Enter password: "
 read password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
-
 #create wp config
 touch $OUT/"70-Creating wp config"
 cp wp-config-sample.php wp-config.php
