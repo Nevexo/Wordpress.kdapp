@@ -70,7 +70,7 @@ echo
 echo "If you have changed your password, please enter your password now."
 echo
 printf "Enter password: "
-read -p password
+read -p password -n
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 
 #create wp config
