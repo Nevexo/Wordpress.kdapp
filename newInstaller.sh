@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 dbname="wordpress_db"
 
 OUT="/tmp/_WordPressinstaller.out/$1"
@@ -7,10 +7,12 @@ mkdir -p $OUT
 #download wordpress
 touch $OUT/"0-Downloading Wordpress"
 cd Web
+pwd
 curl -O http://wordpress.org/latest.tar.gz
 
 #unzip wordpress
 touch $OUT/"20-Unzipping Wordpress"
+pwd
 tar -zxvf latest.tar.gz
 
 #change dir to wordpress
@@ -70,6 +72,7 @@ echo
 printf "Enter password: "
 read password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
+
 #create wp config
 touch $OUT/"70-Creating wp config"
 cp wp-config-sample.php wp-config.php
