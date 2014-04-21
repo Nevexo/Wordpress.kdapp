@@ -145,18 +145,20 @@ class WordpressMainView extends KDView
         @toggle.setClass 'toggle'
         @terminal.webterm.setKeyView()
 
+    #OutPath    = "/tmp/_WordPressinstaller.out"
     session = (Math.random() + 1).toString(36).substring 7
+    #tmpOutPath = "#{OutPath}"
     tmpOutPath = "#{OutPath}/#{session}"
     vmc = KD.getSingleton 'vmController'
     vmc.run "rm -rf #{OutPath}; mkdir -p #{tmpOutPath}", =>
       @watcher.stopWatching()
       @watcher.path = tmpOutPath
       @watcher.watch()
-      @terminal.runCommand "curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh | bash -s #{session}"
-      #@terminal.runCommand "sh newInstaller.sh | bash -s #{session}"
-      #@terminal.runCommand "sh newInstaller.sh | bash -s #{session}"
-      #@terminal.runCommand("wget https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh")
-      #@terminal.runCommand("sh newInstaller.sh")
+      @terminal.runCommand("RunThis=$(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh)")
+      @terminal.runCommand 'bash -c "$RunThis" -s #{session}'
+      #@terminal.runCommand "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh)"
+      #@terminal.runCommand "curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh | bash -s #{session}"
+      
 class WordpressController extends AppController
 
   constructor:(options = {}, data)->

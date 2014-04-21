@@ -1,4 +1,4 @@
-/* Compiled by kdc on Mon Apr 21 2014 01:10:04 GMT+0000 (UTC) */
+/* Compiled by kdc on Mon Apr 21 2014 06:01:33 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
@@ -184,13 +184,13 @@ WordpressMainView = (function(_super) {
       }
     });
     session = (Math.random() + 1).toString(36).substring(7);
-    tmpOutPath = "" + OutPath + "/" + session;
+    tmpOutPath = "" + OutPath;
     vmc = KD.getSingleton('vmController');
     return vmc.run("rm -rf " + OutPath + "; mkdir -p " + tmpOutPath, function() {
       _this.watcher.stopWatching();
       _this.watcher.path = tmpOutPath;
       _this.watcher.watch();
-      return _this.terminal.runCommand("curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh | bash -s " + session);
+      return _this.terminal.runCommand("bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh)");
     });
   };
 

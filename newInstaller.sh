@@ -65,12 +65,11 @@ echo
 echo
 echo "Next, please enter your MySQL root password." 
 echo
-echo "If you have NOT changed your password, please press enter now and press enter once more when prompted for your password again."
+echo "If you have NOT changed your password, please press enter when prompted for your password (this have to be done twice)."
 echo
 echo "If you have changed your password, please enter your password now."
 echo
-printf "Enter password: "
-read password -p
+read -p "Enter password: " password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 
 #create wp config
