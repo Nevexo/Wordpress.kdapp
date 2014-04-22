@@ -7,12 +7,10 @@ mkdir -p $OUT
 #download wordpress
 touch $OUT/"0-Downloading Wordpress"
 cd Web
-pwd
 curl -O http://wordpress.org/latest.tar.gz
 
 #unzip wordpress
 touch $OUT/"20-Unzipping Wordpress"
-pwd
 tar -zxvf latest.tar.gz
 
 #change dir to wordpress
@@ -20,6 +18,7 @@ touch $OUT/"35-Changing directory to Wordpress"
 cd wordpress
 
 echo Starting MySQL service
+echo touch $OUT/"99.9-Starting MySQL"
 touch $OUT/"99.9-Starting MySQL. Please enter sudo password below:"
 echo
 echo
