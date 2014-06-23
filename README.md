@@ -7,7 +7,7 @@ WordPress is a free and open source blogging tool and a content management syste
 For more information: [http://en.wikipedia.org/wiki/WordPress](http://en.wikipedia.org/wiki/WordPress)
 
 
-__This is what you'll see when you launch the app:__
+__This is what you'll see when you launch the app:__ <br>
 
 
 ![alt tag](http://i.imgur.com/JdHBlxg.png)
