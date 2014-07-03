@@ -46,7 +46,7 @@ echo "If you have NOT changed your MySQL root password, which, by default, is no
 echo
 echo "If you have changed your MySQL root password, please enter your password now."
 echo
-read -s -p "Enter password and press enter (you will not see the password): " password
+read -p "Enter password and press enter: " password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 
 #create wp config
