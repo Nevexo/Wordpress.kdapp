@@ -1,4 +1,4 @@
-/* Compiled by kdc on Wed Jul 09 2014 20:49:30 GMT+0000 (UTC) */
+/* Compiled by kdc on Wed Jul 09 2014 21:04:27 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
@@ -47,8 +47,8 @@ WordpressMainView = (function(_super) {
     return KD.singletons.appManager.require('Terminal', function() {
       new KDNotificationView({
         title: "Please turn on your VM in the Terminal app prior to using this app",
-        type: 'mini',
-        duration: 10000,
+        type: 'tray',
+        duration: 15000,
         cssClass: "yellow"
       });
       _this.addSubView(_this.header = new KDHeaderView({

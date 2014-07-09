@@ -22,8 +22,8 @@ class WordpressMainView extends KDView
     
       new KDNotificationView 
         title     : "Please turn on your VM in the Terminal app prior to using this app"
-        type      : 'mini'
-        duration  : 10000
+        type      : 'tray'
+        duration  : 15000
         cssClass  : "yellow"
 
       @addSubView @header = new KDHeaderView
