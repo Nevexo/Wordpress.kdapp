@@ -28,7 +28,7 @@ do
 done
 
 echo sudo service mysql restart
-echo
+echo Note: Your sudo password is your koding password.
 
 sudo service mysql restart
 
