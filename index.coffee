@@ -19,6 +19,12 @@ class WordpressMainView extends KDView
   viewAppended:->
 
     KD.singletons.appManager.require 'Terminal', =>
+    
+      new KDNotificationView 
+        title     : "Please turn on your VM in the Terminal app prior to using this app"
+        type      : 'mini'
+        duration  : 10000
+        cssClass  : "yellow"
 
       @addSubView @header = new KDHeaderView
         title         : "WordPress Installer"
