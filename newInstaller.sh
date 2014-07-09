@@ -22,7 +22,7 @@ echo touch $OUT/"99.9-Starting MySQL"
 touch $OUT/"99.9-Starting MySQL. Please enter sudo password below:"
 echo
 
-for i in {1..30}
+for i in {1..20}
 do
    echo
 done
@@ -33,19 +33,15 @@ echo
 sudo service mysql restart
 
 touch $OUT/"99.9-Creating mysql database. Please enter mysql password below:"
+
+for i in {1..20}
+do
+   echo
+done
+
+echo "Press ENTER (twice) if you have not changed your MySQL password."
 echo
-echo
-echo
-echo
-echo
-echo
-echo
-echo "Next, please enter your MySQL root password." 
-echo
-echo "If you have NOT changed your MySQL root password, which, by default, is no password, please press enter when prompted for your password (this will have to be done twice)."
-echo
-echo "If you have changed your MySQL root password, please enter your password now."
-echo "Enter password and press enter (you will not see it outputted): "
+echo "Enter MySQL password (you will not see it outputted): "
 read -s password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 

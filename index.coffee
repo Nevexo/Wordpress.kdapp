@@ -1,3 +1,55 @@
+class KiteHelper extends KDController
+
+  mvIsStarting: false
+  
+  getReady:->
+
+    new Promise (resolve, reject) =>
+
+      {JVM} = KD.remote.api
+      JVM.fetchVmsByContext (err, vms)=>
+
+        console.warn err  if err
+        return unless vms
+
+        @_vms = vms
+        @_kites = {}
+
+        kiteController = KD.getSingleton 'kiteController'
+
+        for vm in vms
+          alias = vm.hostnameAlias
+          @_kites[alias] = kiteController
+            .getKite "os-#{ vm.region }", alias, 'os'
+        
+        resolve()
+
+  getKite:->
+
+    new Promise (resolve, reject)=>
+
+      @getReady().then =>
+        vm = @_vms.first.hostnameAlias
+        {vmController} = KD.singletons
+
+        unless kite = @_kites[vm]
+          return reject
+            message: "No such kite for #{vm}"
+        
+        vmController.info vm, (err, vmn, info)=>
+          if !@mvIsStarting and info.state is "STOPPED"
+            @mvIsStarting = true
+            timeout = 10 * 60 * 1000
+            kite.options.timeout = timeout
+            
+            kite.vmOn().then ->
+              resolve kite
+            .timeout(timeout)
+            .catch (err)->
+              reject err
+          else
+            resolve kite
+
 class LogWatcher extends FSWatcher
 
   fileAdded:(change)->
@@ -17,75 +69,77 @@ class WordpressMainView extends KDView
     super cssClass: "WordPress-installer" 
 
   viewAppended:->
+    @kiteHelper = new KiteHelper
+    @kiteHelper.getKite().then (kite)=>
 
-    KD.singletons.appManager.require 'Terminal', =>
+      KD.singletons.appManager.require 'Terminal', =>
 
-      @addSubView @header = new KDHeaderView
-        title         : "WordPress Installer"
-        type          : "big"
+        @addSubView @header = new KDHeaderView
+          title         : "WordPress Installer"
+          type          : "big"
 
-      @addSubView @toggle = new KDToggleButton
-        cssClass        : 'toggle-button'
-        style           : "clean-gray" 
-        defaultState    : "Show details"
-        states          : [
-          title         : "Show details"
-          callback      : (cb)=>
-            @terminal.setClass 'in'
-            @toggle.setClass 'toggle'
-            @terminal.webterm.setKeyView()
-            cb?()
-        ,
-          title         : "Hide details"
-          callback      : (cb)=>
-            @terminal.unsetClass 'in'
-            @toggle.unsetClass 'toggle'
-            cb?()
-        ]
+        @addSubView @toggle = new KDToggleButton
+          cssClass        : 'toggle-button'
+          style           : "clean-gray" 
+          defaultState    : "Show details"
+          states          : [
+            title         : "Show details"
+            callback      : (cb)=>
+              @terminal.setClass 'in'
+              @toggle.setClass 'toggle'
+              @terminal.webterm.setKeyView()
+              cb?()
+          ,
+            title         : "Hide details"
+            callback      : (cb)=>
+              @terminal.unsetClass 'in'
+              @toggle.unsetClass 'toggle'
+              cb?()
+          ]
 
-      @addSubView @logo = new KDCustomHTMLView
-        tagName       : 'img'
-        cssClass      : 'logo'
-        attributes    :
-          src         : png
+        @addSubView @logo = new KDCustomHTMLView
+          tagName       : 'img'
+          cssClass      : 'logo'
+          attributes    :
+            src         : png
 
-      @watcher = new LogWatcher
+        @watcher = new LogWatcher
 
-      @addSubView @progress = new KDProgressBarView
-        initial       : 100
-        title         : "Checking installation..."
+        @addSubView @progress = new KDProgressBarView
+          initial       : 100
+          title         : "Checking installation..."
 
-      @addSubView @terminal = new TerminalPane
-        cssClass      : 'terminal'
+        @addSubView @terminal = new TerminalPane
+          cssClass      : 'terminal'
 
-      @addSubView @button = new KDButtonView
-        title         : "Install WordPress"
-        cssClass      : 'main-button solid'
-        loader        :
-          color       : "#FFFFFF"
-          diameter    : 12
-        callback      : => @installCallback()
+        @addSubView @button = new KDButtonView
+          title         : "Install WordPress"
+          cssClass      : 'main-button solid'
+          loader        :
+            color       : "#FFFFFF"
+            diameter    : 12
+          callback      : => @installCallback()
 
-      @addSubView @link = new KDCustomHTMLView
-        cssClass : 'hidden running-link'
-        
-      @link.setSession = (session)->
-        @updatePartial "Click here to launch WordPress: <a target='_blank' href='http://#{domain}/wordpress/index.php'>http://#{domain}/wordpress/index.php</a>"
-        @show()
-
-      @addSubView @content = new KDCustomHTMLView
-        cssClass : "WordPress-help"
-        partial  : """   
-          <p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>
+        @addSubView @link = new KDCustomHTMLView
+          cssClass : 'hidden running-link'
           
-          <p>You can see some <a href="http://wordpress.org/showcase/">examples </a> of sites that have used WordPress among which 
-          include The New York Times Blog, TechCrunch, Flickr, and many others.  <a href="https://codex.wordpress.org/WordPress_Lessons">online tutorials</a>,
-           and news on the <a href="https://wordpress.org/news/">WordPress blog</a>.</p>
-           
-          
-        """
+        @link.setSession = (session)->
+          @updatePartial "Click here to launch WordPress: <a target='_blank' href='http://#{domain}/wordpress/index.php'>http://#{domain}/wordpress/index.php</a>"
+          @show()
 
-      @checkState()
+        @addSubView @content = new KDCustomHTMLView
+          cssClass : "WordPress-help"
+          partial  : """   
+            <p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>
+            
+            <p>You can see some <a href="http://wordpress.org/showcase/">examples </a> of sites that have used WordPress among which 
+            include The New York Times Blog, TechCrunch, Flickr, and many others.  <a href="https://codex.wordpress.org/WordPress_Lessons">online tutorials</a>,
+             and news on the <a href="https://wordpress.org/news/">WordPress blog</a>.</p>
+             
+            
+          """
+
+        @checkState()
 
   checkState:->
 

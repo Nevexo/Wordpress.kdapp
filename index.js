@@ -1,23 +1,94 @@
-/* Compiled by kdc on Thu Jul 03 2014 19:58:11 GMT+0000 (UTC) */
+/* Compiled by kdc on Wed Jul 09 2014 20:00:45 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
-var LogWatcher, OutPath, WordpressController, WordpressMainView, domain, png, wordpressIndex, _ref,
+var KiteHelper, LogWatcher, OutPath, WordpressController, WordpressMainView, domain, png, wordpressIndex, _ref, _ref1,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+KiteHelper = (function(_super) {
+  __extends(KiteHelper, _super);
+
+  function KiteHelper() {
+    _ref = KiteHelper.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  KiteHelper.prototype.mvIsStarting = false;
+
+  KiteHelper.prototype.getReady = function() {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      var JVM;
+      JVM = KD.remote.api.JVM;
+      return JVM.fetchVmsByContext(function(err, vms) {
+        var alias, kiteController, vm, _i, _len;
+        if (err) {
+          console.warn(err);
+        }
+        if (!vms) {
+          return;
+        }
+        _this._vms = vms;
+        _this._kites = {};
+        kiteController = KD.getSingleton('kiteController');
+        for (_i = 0, _len = vms.length; _i < _len; _i++) {
+          vm = vms[_i];
+          alias = vm.hostnameAlias;
+          _this._kites[alias] = kiteController.getKite("os-" + vm.region, alias, 'os');
+        }
+        return resolve();
+      });
+    });
+  };
+
+  KiteHelper.prototype.getKite = function() {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      return _this.getReady().then(function() {
+        var kite, vm, vmController;
+        vm = _this._vms.first.hostnameAlias;
+        vmController = KD.singletons.vmController;
+        if (!(kite = _this._kites[vm])) {
+          return reject({
+            message: "No such kite for " + vm
+          });
+        }
+        return vmController.info(vm, function(err, vmn, info) {
+          var timeout;
+          if (!_this.mvIsStarting && info.state === "STOPPED") {
+            _this.mvIsStarting = true;
+            timeout = 10 * 60 * 1000;
+            kite.options.timeout = timeout;
+            return kite.vmOn().then(function() {
+              return resolve(kite);
+            }).timeout(timeout)["catch"](function(err) {
+              return reject(err);
+            });
+          } else {
+            return resolve(kite);
+          }
+        });
+      });
+    });
+  };
+
+  return KiteHelper;
+
+})(KDController);
 
 LogWatcher = (function(_super) {
   __extends(LogWatcher, _super);
 
   function LogWatcher() {
-    _ref = LogWatcher.__super__.constructor.apply(this, arguments);
-    return _ref;
+    _ref1 = LogWatcher.__super__.constructor.apply(this, arguments);
+    return _ref1;
   }
 
   LogWatcher.prototype.fileAdded = function(change) {
-    var name, percentage, status, _ref1;
+    var name, percentage, status, _ref2;
     name = change.file.name;
-    _ref1 = name.split('-'), percentage = _ref1[0], status = _ref1[1];
+    _ref2 = name.split('-'), percentage = _ref2[0], status = _ref2[1];
     return this.emit("UpdateProgress", percentage, status);
   };
 
@@ -44,72 +115,75 @@ WordpressMainView = (function(_super) {
 
   WordpressMainView.prototype.viewAppended = function() {
     var _this = this;
-    return KD.singletons.appManager.require('Terminal', function() {
-      _this.addSubView(_this.header = new KDHeaderView({
-        title: "WordPress Installer",
-        type: "big"
-      }));
-      _this.addSubView(_this.toggle = new KDToggleButton({
-        cssClass: 'toggle-button',
-        style: "clean-gray",
-        defaultState: "Show details",
-        states: [
-          {
-            title: "Show details",
-            callback: function(cb) {
-              _this.terminal.setClass('in');
-              _this.toggle.setClass('toggle');
-              _this.terminal.webterm.setKeyView();
-              return typeof cb === "function" ? cb() : void 0;
+    this.kiteHelper = new KiteHelper;
+    return this.kiteHelper.getKite().then(function(kite) {
+      return KD.singletons.appManager.require('Terminal', function() {
+        _this.addSubView(_this.header = new KDHeaderView({
+          title: "WordPress Installer",
+          type: "big"
+        }));
+        _this.addSubView(_this.toggle = new KDToggleButton({
+          cssClass: 'toggle-button',
+          style: "clean-gray",
+          defaultState: "Show details",
+          states: [
+            {
+              title: "Show details",
+              callback: function(cb) {
+                _this.terminal.setClass('in');
+                _this.toggle.setClass('toggle');
+                _this.terminal.webterm.setKeyView();
+                return typeof cb === "function" ? cb() : void 0;
+              }
+            }, {
+              title: "Hide details",
+              callback: function(cb) {
+                _this.terminal.unsetClass('in');
+                _this.toggle.unsetClass('toggle');
+                return typeof cb === "function" ? cb() : void 0;
+              }
             }
-          }, {
-            title: "Hide details",
-            callback: function(cb) {
-              _this.terminal.unsetClass('in');
-              _this.toggle.unsetClass('toggle');
-              return typeof cb === "function" ? cb() : void 0;
-            }
+          ]
+        }));
+        _this.addSubView(_this.logo = new KDCustomHTMLView({
+          tagName: 'img',
+          cssClass: 'logo',
+          attributes: {
+            src: png
           }
-        ]
-      }));
-      _this.addSubView(_this.logo = new KDCustomHTMLView({
-        tagName: 'img',
-        cssClass: 'logo',
-        attributes: {
-          src: png
-        }
-      }));
-      _this.watcher = new LogWatcher;
-      _this.addSubView(_this.progress = new KDProgressBarView({
-        initial: 100,
-        title: "Checking installation..."
-      }));
-      _this.addSubView(_this.terminal = new TerminalPane({
-        cssClass: 'terminal'
-      }));
-      _this.addSubView(_this.button = new KDButtonView({
-        title: "Install WordPress",
-        cssClass: 'main-button solid',
-        loader: {
-          color: "#FFFFFF",
-          diameter: 12
-        },
-        callback: function() {
-          return _this.installCallback();
-        }
-      }));
-      _this.addSubView(_this.link = new KDCustomHTMLView({
-        cssClass: 'hidden running-link'
-      }));
-      _this.link.setSession = function(session) {
-        this.updatePartial("Click here to launch WordPress: <a target='_blank' href='http://" + domain + "/wordpress/index.php'>http://" + domain + "/wordpress/index.php</a>");
-        return this.show();
-      };
-      _this.addSubView(_this.content = new KDCustomHTMLView({
-        cssClass: "WordPress-help",
-        partial: "   \n<p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>\n\n<p>You can see some <a href=\"http://wordpress.org/showcase/\">examples </a> of sites that have used WordPress among which \ninclude The New York Times Blog, TechCrunch, Flickr, and many others.  <a href=\"https://codex.wordpress.org/WordPress_Lessons\">online tutorials</a>,\n and news on the <a href=\"https://wordpress.org/news/\">WordPress blog</a>.</p>\n \n"
-      }));
-      return _this.checkState();
+        }));
+        _this.watcher = new LogWatcher;
+        _this.addSubView(_this.progress = new KDProgressBarView({
+          initial: 100,
+          title: "Checking installation..."
+        }));
+        _this.addSubView(_this.terminal = new TerminalPane({
+          cssClass: 'terminal'
+        }));
+        _this.addSubView(_this.button = new KDButtonView({
+          title: "Install WordPress",
+          cssClass: 'main-button solid',
+          loader: {
+            color: "#FFFFFF",
+            diameter: 12
+          },
+          callback: function() {
+            return _this.installCallback();
+          }
+        }));
+        _this.addSubView(_this.link = new KDCustomHTMLView({
+          cssClass: 'hidden running-link'
+        }));
+        _this.link.setSession = function(session) {
+          this.updatePartial("Click here to launch WordPress: <a target='_blank' href='http://" + domain + "/wordpress/index.php'>http://" + domain + "/wordpress/index.php</a>");
+          return this.show();
+        };
+        _this.addSubView(_this.content = new KDCustomHTMLView({
+          cssClass: "WordPress-help",
+          partial: "   \n<p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>\n\n<p>You can see some <a href=\"http://wordpress.org/showcase/\">examples </a> of sites that have used WordPress among which \ninclude The New York Times Blog, TechCrunch, Flickr, and many others.  <a href=\"https://codex.wordpress.org/WordPress_Lessons\">online tutorials</a>,\n and news on the <a href=\"https://wordpress.org/news/\">WordPress blog</a>.</p>\n \n"
+        }));
+        return _this.checkState();
+      });
     });
   };
 
