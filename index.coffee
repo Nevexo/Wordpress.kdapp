@@ -85,7 +85,19 @@ class WordpressMainView extends KDView
           
         """
 
+      @checkLoadTime()
       @checkState()
+      
+  checkLoadTime: ->
+    seconds = 0  
+    repeater = KD.utils.repeat 1000, =>
+      seconds++
+      if seconds is 30
+        KD.utils.killRepeat repeater
+        new KDNotificationView
+          title : 'If the installation has not begun, your VM may not have been turned on. Please refresh the page.'
+          type  : 'mini'
+          duration : 15000    
 
   checkState:->
 

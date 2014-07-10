@@ -1,4 +1,4 @@
-/* Compiled by kdc on Thu Jul 10 2014 00:15:41 GMT+0000 (UTC) */
+/* Compiled by kdc on Thu Jul 10 2014 21:39:50 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
@@ -109,7 +109,25 @@ WordpressMainView = (function(_super) {
         cssClass: "WordPress-help",
         partial: "   \n<p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>\n\n<p>You can see some <a href=\"http://wordpress.org/showcase/\">examples </a> of sites that have used WordPress among which \ninclude The New York Times Blog, TechCrunch, Flickr, and many others.  <a href=\"https://codex.wordpress.org/WordPress_Lessons\">online tutorials</a>,\n and news on the <a href=\"https://wordpress.org/news/\">WordPress blog</a>.</p>\n \n"
       }));
+      _this.checkLoadTime();
       return _this.checkState();
+    });
+  };
+
+  WordpressMainView.prototype.checkLoadTime = function() {
+    var repeater, seconds,
+      _this = this;
+    seconds = 0;
+    return repeater = KD.utils.repeat(1000, function() {
+      seconds++;
+      if (seconds === 30) {
+        KD.utils.killRepeat(repeater);
+        return new KDNotificationView({
+          title: 'If the installation has not begun, your VM may not have been turned on. Please refresh the page.',
+          type: 'mini',
+          duration: 15000
+        });
+      }
     });
   };
 
