@@ -100,9 +100,12 @@ class WordPressMainView extends KDView
           color       : "#FFFFFF"
           diameter    : 12
         callback      : => 
-          @terminal.runCommand "rm ~/Web/wordpress -r"
-          @switchState 'install'
-          @installCallback()
+          @link.hide()
+          @progress.updateBar 100, '%', "Reinstalling WordPress"
+          @terminal.runCommand "rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r"
+          KD.utils.wait 1000, =>
+            alert "hai"
+            @installCallback()
         
       @checkLoadTime()
       @checkState()

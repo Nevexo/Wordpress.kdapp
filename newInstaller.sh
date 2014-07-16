@@ -31,7 +31,7 @@ echo sudo service mysql start
 echo
 echo Note: Your sudo password is your koding password.
 echo
-sudo service mysql restart
+sudo service mysql start
 
 touch $OUT/"99.9-Creating MySQL database. Please enter MySQL password below:"
 
@@ -42,7 +42,7 @@ done
 
 echo "Press ENTER (twice) if you have not changed your MySQL password."
 echo
-echo -n "Enter MySQL password (you will not see it outputted): "
+echo "Enter MySQL password (you will not see it outputted): "
 read -s password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 
