@@ -1,21 +1,18 @@
-.yellow {
- background: green; 
-}
-
 .WordPress-installer {
   padding: 0 10px 10px;
-  width: 600px;
-  height: auto;
+  width: 800px;
+  height: 90%;
   background-color: rgba(255,255,255,0.9);
   border-radius: 3px;
   left:50%;
-  margin-left:-300px;
+  margin-left:-400px;
   margin-top:80px;
+  overflow: scroll;
 }
 
 .WordPress-installer .toggle-button {
   position: absolute;
-  top: 200px;
+  top: 264px;
   right: 12px;
   z-index: 4;
 }
@@ -46,12 +43,25 @@
 .WordPress-installer .main-button {
   margin:15px;
   left:50%;
-  width:250px;
-  min-height: 30px;
-  margin-left:-125px;
+  width:300px;
+  min-height: 40px;
+  margin-left:-150px;
 }
 
 .WordPress-installer .main-button.loading > .button-title {
+  visibility: hidden;
+}
+
+.WordPress-installer .reinstall-button {
+  margin:15px;
+  left:740px;
+  top:-1000px;
+  width:200px;
+  min-height: 20px;
+  margin-left:-150px;
+}
+
+.WordPress-installer .reinstall-button.loading > .button-title {
   visibility: hidden;
 }
 
@@ -87,8 +97,6 @@
 }
 
 .WordPress-installer .WordPress-help a {
-  text-decoration: none;
-  color: #00CC00;
 }
 
 .WordPress-installer .WordPress-help b {
@@ -116,6 +124,10 @@
 
 .WordPress-installer .running-link a {
   text-decoration:none;
-  color: #1AAF5D;
+  color: blue;
   text-shadow:none;
+}
+
+.picture {
+ width: 800px; 
 }

@@ -6,7 +6,7 @@ mkdir -p $OUT
 
 #download wordpress
 touch $OUT/"0-Downloading Wordpress"
-cd Web
+cd ~/Web
 curl -O http://wordpress.org/latest.tar.gz
 
 #unzip wordpress
@@ -27,12 +27,13 @@ do
    echo
 done
 
-echo sudo service mysql restart
+echo sudo service mysql start
+echo
 echo Note: Your sudo password is your koding password.
-
+echo
 sudo service mysql restart
 
-touch $OUT/"99.9-Creating mysql database. Please enter mysql password below:"
+touch $OUT/"99.9-Creating MySQL database. Please enter MySQL password below:"
 
 for i in {1..20}
 do
@@ -41,7 +42,7 @@ done
 
 echo "Press ENTER (twice) if you have not changed your MySQL password."
 echo
-echo "Enter MySQL password (you will not see it outputted): "
+echo -n "Enter MySQL password (you will not see it outputted): "
 read -s password
 mysql -u root -p$password -e "CREATE DATABASE wordpress_db;"
 

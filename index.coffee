@@ -6,22 +6,38 @@ class LogWatcher extends FSWatcher
     
     @emit "UpdateProgress", percentage, status
 
+AppName = "WordPress"
 domain     = "#{KD.nick()}.kd.io"
 OutPath    = "/tmp/_WordPressinstaller.out"
-wordpressIndex    = "~/Web/wordpress/wp-config.php"
-png = "https://raw.githubusercontent.com/glang/wordpress.kdapp/master/wordpress.png"
+existingFile    = "~/Web/wordpress/wp-config.php"
+png = "https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/wordpress.png"
+session = (Math.random() + 1).toString(36).substring 7
+runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) #{session}"
+launchURL = "http://#{domain}/wordpress"
+description = 
+          """
+          <p><br><b>Note: A MySQL database named "wordpress_db" will be created for user "root". </b></p>
+          <p><b>WordPress</b> is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. <b>WordPress</b> is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>        
+          <p>You can see some <b><a href="http://WordPress.org/showcase/">examples </a></b> of sites that have used WordPress among which 
+          include The New York Times Blog, TechCrunch, Flickr, and many others. If you are new to WordPress, be sure to check out the <b><a href="https://codex.WordPress.org/WordPress_Lessons">WordPress Lessons</a></b>, and the <b><a href="https://WordPress.org/news/">WordPress blog</a></b>.</p>
+          <p><b>If your installation did not go smoothly, reinstall WordPress by clicking this button: </b><p>
+          <p><b>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>
+          <img class="picture" src="https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67">
+          
+          """
 
-class WordpressMainView extends KDView 
+class WordPressMainView extends KDView
 
-  constructor:->
-    super cssClass: "WordPress-installer" 
+  constructor:(options = {}, data)->
+    options.cssClass = "#{AppName}-installer"
+    super options, data
 
-  viewAppended:->
-
-    KD.singletons.appManager.require 'Terminal', =>
+  viewAppended:-> 
+  
+    KD.singletons.appManager.require 'Terminal', => 
 
       @addSubView @header = new KDHeaderView
-        title         : "WordPress Installer"
+        title         : "#{AppName} Installer"
         type          : "big"
 
       @addSubView @toggle = new KDToggleButton
@@ -59,32 +75,35 @@ class WordpressMainView extends KDView
         cssClass      : 'terminal'
 
       @addSubView @button = new KDButtonView
-        title         : "Install WordPress"
+        title         : "Install #{AppName}"
         cssClass      : 'main-button solid'
         loader        :
           color       : "#FFFFFF"
           diameter    : 12
-        callback      : => @installCallback()
+        callback      : => @installCallback() 
 
       @addSubView @link = new KDCustomHTMLView
         cssClass : 'hidden running-link'
         
-      @link.setSession = (session)->
-        @updatePartial "Click here to launch WordPress: <a target='_blank' href='http://#{domain}/wordpress/index.php'>http://#{domain}/wordpress/index.php</a>"
+      @link.setSession = ->
+        @updatePartial "Click here to launch #{AppName}: <a target='_blank' href='#{launchURL}'>#{launchURL}</a>"
         @show()
 
       @addSubView @content = new KDCustomHTMLView
-        cssClass : "WordPress-help"
-        partial  : """   
-          <p><br>WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>
-          
-          <p>You can see some <a href="http://wordpress.org/showcase/">examples </a> of sites that have used WordPress among which 
-          include The New York Times Blog, TechCrunch, Flickr, and many others.  <a href="https://codex.wordpress.org/WordPress_Lessons">online tutorials</a>,
-           and news on the <a href="https://wordpress.org/news/">WordPress blog</a>.</p>
-           
-          
-        """
-
+        cssClass : "#{AppName}-help"
+        partial  : description
+        
+      @content.addSubView @reinstallButton = new KDButtonView
+        title         : "Reinstall #{AppName}"
+        cssClass      : 'reinstall-button solid'
+        loader        :
+          color       : "#FFFFFF"
+          diameter    : 12
+        callback      : => 
+          @terminal.runCommand "rm ~/Web/wordpress -r"
+          @switchState 'install'
+          @installCallback()
+        
       @checkLoadTime()
       @checkState()
       
@@ -97,7 +116,7 @@ class WordpressMainView extends KDView
         new KDNotificationView
           title : 'If the installation has not begun, your VM may not have been turned on. Please refresh the page.'
           type  : 'mini'
-          duration : 15000    
+          duration : 15000          
 
   checkState:->
 
@@ -105,16 +124,16 @@ class WordpressMainView extends KDView
 
     @button.showLoader()
 
-    FSHelper.exists wordpressIndex, vmc.defaultVmName, (err, WordPress)=>
+    FSHelper.exists existingFile, vmc.defaultVmName, (err, found)=>
       warn err if err
       
-      unless WordPress
+      unless found
         @link.hide()
-        @progress.updateBar 100, '%', "WordPress is not installed."
+        @progress.updateBar 100, '%', "#{AppName} is not installed."
         @switchState 'install'
       else
-        @progress.updateBar 100, '%', "WordPress is installed."
-        @link.setSession "Web/wordpress/index.php"
+        @progress.updateBar 100, '%', "#{AppName} is installed."
+        @link.setSession()
         @switchState 'run'
 
   
@@ -124,7 +143,7 @@ class WordpressMainView extends KDView
 
     switch state
       when 'install'
-        title = "Install WordPress"
+        title = "Install #{AppName}"
         style = ''
         @button.setCallback => @installCallback()
       when 'run'
@@ -132,8 +151,9 @@ class WordpressMainView extends KDView
 
     @button.unsetClass 'red green'
     @button.setClass style
-    @button.setTitle title or "Run WordPress"
+    @button.setTitle title or "Run #{AppName}"
     @button.hideLoader()
+    @reinstallButton.hideLoader()
 
   stopCallback:->
     @_lastRequest = 'stop'
@@ -148,7 +168,7 @@ class WordpressMainView extends KDView
         @toggle.setState 'Show details'
         @terminal.unsetClass 'in'
         @toggle.unsetClass 'toggle'
-        @link.setSession "Web/wordpress/index.php"
+        @link.setSession()
         @switchState 'run'
         
       else if percentage is "0"
@@ -157,21 +177,21 @@ class WordpressMainView extends KDView
         @toggle.setClass 'toggle'
         @terminal.webterm.setKeyView()
 
-    session = (Math.random() + 1).toString(36).substring 7
     tmpOutPath = "#{OutPath}/#{session}"
     vmc = KD.getSingleton 'vmController'
     vmc.run "rm -rf #{OutPath}; mkdir -p #{tmpOutPath}", =>
       @watcher.stopWatching()
       @watcher.path = tmpOutPath
       @watcher.watch()
-      @terminal.runCommand "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) #{session}"
-      
-class WordpressController extends AppController
+      @terminal.runCommand runScriptCommand
+
+
+class WordPressController extends AppController
 
   constructor:(options = {}, data)->
-    options.view    = new WordpressMainView
+    options.view    = new WordPressMainView
     options.appInfo =
-      name : "Wordpress"
+      name : "WordPress"
       type : "application"
 
     super options, data
@@ -181,15 +201,15 @@ do ->
   # In live mode you can add your App view to window's appView
   if appView?
 
-    view = new WordpressMainView
+    view = new WordPressMainView
     appView.addSubView view
 
   else
 
-    KD.registerAppClass WordpressController,
-      name     : "Wordpress"
+    KD.registerAppClass WordPressController,
+      name     : "WordPress"
       routes   :
-        "/:name?/Wordpress" : null
-        "/:name?/glang/Apps/Wordpress" : null
-      dockPath : "/glang/Apps/Wordpress"
+        "/:name?/WordPress" : null
+        "/:name?/glang/Apps/WordPress" : null
+      dockPath : "/glang/Apps/WordPress"
       behavior : "application"
