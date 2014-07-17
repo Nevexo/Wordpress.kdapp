@@ -23,6 +23,12 @@ description =
           <img class="picture" src="https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67">
           <p><b><br><br>After filling out the basic info and logging in, you will be brought here: </b></p>
           <img class="picture" src="http://i.imgur.com/IUgwK3S.png">
+          <p><b><br><br>Want to install a new theme or plugin? When prompted for connection information, enter this: </b></p>
+          <p><b>Hostname: localhost</b></p>
+          <p><b>FTP Username: Your Koding Username</b></p>
+          <p><b>FTP Password: Your Koding Password</b></p>
+          <img class="picture" src="http://i.imgur.com/zg9o6lZ.png">
+          <p><b><br>That's it for the WordPress on Koding Guide! Have fun!</b></p>
           
           """
 
