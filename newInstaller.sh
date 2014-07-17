@@ -18,7 +18,6 @@ touch $OUT/"35-Changing directory to Wordpress"
 cd wordpress
 
 echo Starting MySQL service
-echo touch $OUT/"99.9-Starting MySQL"
 touch $OUT/"99.9-Starting MySQL. Please enter sudo password below:"
 echo
 

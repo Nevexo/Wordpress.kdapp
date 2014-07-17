@@ -1,8 +1,8 @@
-/* Compiled by kdc on Wed Jul 16 2014 19:48:21 GMT+0000 (UTC) */
+/* Compiled by kdc on Thu Jul 17 2014 20:36:44 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
-var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png, runScriptCommand, session, _ref,
+var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -34,10 +34,6 @@ OutPath = "/tmp/_WordPressinstaller.out";
 existingFile = "~/Web/wordpress/wp-config.php";
 
 png = "https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/wordpress.png";
-
-session = (Math.random() + 1).toString(36).substring(7);
-
-runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) " + session;
 
 launchURL = "http://" + domain + "/wordpress";
 
@@ -129,30 +125,13 @@ WordPressMainView = (function(_super) {
           diameter: 12
         },
         callback: function() {
-          _this.terminal.runCommand("rm ~/Web/wordpress -r");
-          _this.switchState('install');
+          _this.link.hide();
+          _this.progress.updateBar(100, '%', "Reinstalling WordPress");
+          _this.terminal.runCommand("rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r");
           return _this.installCallback();
         }
       }));
-      _this.checkLoadTime();
       return _this.checkState();
-    });
-  };
-
-  WordPressMainView.prototype.checkLoadTime = function() {
-    var repeater, seconds,
-      _this = this;
-    seconds = 0;
-    return repeater = KD.utils.repeat(1000, function() {
-      seconds++;
-      if (seconds === 30) {
-        KD.utils.killRepeat(repeater);
-        return new KDNotificationView({
-          title: 'If the installation has not begun, your VM may not have been turned on. Please refresh the page.',
-          type: 'mini',
-          duration: 15000
-        });
-      }
     });
   };
 
@@ -209,7 +188,7 @@ WordPressMainView = (function(_super) {
   };
 
   WordPressMainView.prototype.installCallback = function() {
-    var tmpOutPath, vmc,
+    var runScriptCommand, session, tmpOutPath, vmc,
       _this = this;
     this.watcher.on('UpdateProgress', function(percentage, status) {
       _this.progress.updateBar(percentage, '%', status);
@@ -227,6 +206,8 @@ WordPressMainView = (function(_super) {
         return _this.terminal.webterm.setKeyView();
       }
     });
+    session = (Math.random() + 1).toString(36).substring(7);
+    runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) " + session;
     tmpOutPath = "" + OutPath + "/" + session;
     vmc = KD.getSingleton('vmController');
     return vmc.run("rm -rf " + OutPath + "; mkdir -p " + tmpOutPath, function() {

@@ -11,8 +11,6 @@ domain     = "#{KD.nick()}.kd.io"
 OutPath    = "/tmp/_WordPressinstaller.out"
 existingFile    = "~/Web/wordpress/wp-config.php"
 png = "https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/wordpress.png"
-session = (Math.random() + 1).toString(36).substring 7
-runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) #{session}"
 launchURL = "http://#{domain}/wordpress"
 description = 
           """
@@ -103,23 +101,9 @@ class WordPressMainView extends KDView
           @link.hide()
           @progress.updateBar 100, '%', "Reinstalling WordPress"
           @terminal.runCommand "rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r"
-          KD.utils.wait 1000, =>
-            alert "hai"
-            @installCallback()
+          @installCallback()
         
-      @checkLoadTime()
-      @checkState()
-      
-  checkLoadTime: ->
-    seconds = 0  
-    repeater = KD.utils.repeat 1000, =>
-      seconds++
-      if seconds is 30
-        KD.utils.killRepeat repeater
-        new KDNotificationView
-          title : 'If the installation has not begun, your VM may not have been turned on. Please refresh the page.'
-          type  : 'mini'
-          duration : 15000          
+      @checkState()   
 
   checkState:->
 
@@ -180,6 +164,8 @@ class WordPressMainView extends KDView
         @toggle.setClass 'toggle'
         @terminal.webterm.setKeyView()
 
+    session = (Math.random() + 1).toString(36).substring 7
+    runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) #{session}"        
     tmpOutPath = "#{OutPath}/#{session}"
     vmc = KD.getSingleton 'vmController'
     vmc.run "rm -rf #{OutPath}; mkdir -p #{tmpOutPath}", =>
