@@ -1,3 +1,7 @@
+.kdview {
+ overflow: auto; 
+}
+
 .WordPress-installer {
   padding: 0 10px 10px;
   width: 800px;
@@ -7,7 +11,7 @@
   left:50%;
   margin-left:-400px;
   margin-top:80px;
-  overflow: scroll;
+  overflow: visible;
 }
 
 .WordPress-installer .toggle-button {
@@ -55,10 +59,15 @@
 .WordPress-installer .reinstall-button {
   margin:15px;
   left:740px;
-  top:-2421px;
+  top:-2486px;
   width:200px;
-  min-height: 20px;
+  height: 20px;
   margin-left:-150px;
+}
+
+.WordPress-installer .reinstall-button .button-title {
+  font-size: 12px !important;
+  line-height: 0 !important;
 }
 
 .WordPress-installer .reinstall-button.loading > .button-title {
