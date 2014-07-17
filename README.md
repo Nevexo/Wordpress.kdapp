@@ -52,6 +52,7 @@ And here is a preview of the freshly installed theme:
 
 
 That's it for the WordPress on Koding Guide! Have fun!
+--------------------------
 
 
 
