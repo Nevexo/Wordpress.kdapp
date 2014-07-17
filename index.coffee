@@ -28,6 +28,8 @@ description =
           <p><b>FTP Username: Your Koding Username</b></p>
           <p><b>FTP Password: Your Koding Password</b></p>
           <img class="picture" src="http://i.imgur.com/zg9o6lZ.png">
+          <p><b><br><br>And here is a preview on the freshly installed theme: </b></p>
+          <img class="picture" src="http://i.imgur.com/qycJmsH.png">
           <p><b><br>That's it for the WordPress on Koding Guide! Have fun!</b></p>
           
           """
@@ -183,12 +185,13 @@ class WordPressMainView extends KDView
       @terminal.runCommand runScriptCommand
 
 
-class WordPressController extends AppController
+
+class WordpresstestController extends AppController
 
   constructor:(options = {}, data)->
     options.view    = new WordPressMainView
     options.appInfo =
-      name : "WordPress"
+      name : "Wordpresstest"
       type : "application"
 
     super options, data
@@ -203,10 +206,10 @@ do ->
 
   else
 
-    KD.registerAppClass WordPressController,
-      name     : "WordPress"
+    KD.registerAppClass WordpresstestController,
+      name     : "Wordpresstest"
       routes   :
-        "/:name?/WordPress" : null
-        "/:name?/glang/Apps/WordPress" : null
-      dockPath : "/glang/Apps/WordPress"
+        "/:name?/Wordpresstest" : null
+        "/:name?/glang/Apps/Wordpresstest" : null
+      dockPath : "/glang/Apps/Wordpresstest"
       behavior : "application"
