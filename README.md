@@ -31,14 +31,11 @@ After filling out the basic info and logging in, you will be brought here:
 
 
 Want to install a new theme or plugin? When prompted for connection information, enter this: 
-
-
+--------------------------
 Hostname: localhost
-
-
+--------------------------
 FTP Username: Your Koding Username
-
-
+--------------------------
 FTP Password: Your Koding Password
 --------------------------
 
