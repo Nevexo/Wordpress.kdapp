@@ -13,22 +13,28 @@ curl -O http://wordpress.org/latest.tar.gz
 touch $OUT/"20-Unzipping Wordpress"
 tar -zxf latest.tar.gz
 
-#change dir to wordpress
-touch $OUT/"35-Changing directory to Wordpress"
-cd wordpress
-
-echo Starting MySQL service
-touch $OUT/"99.9-Starting MySQL. Please enter sudo password below:"
-echo
+touch $OUT/"50-Installing PureFTPd. Please enter sudo password below:"
 
 for i in {1..20}
 do
    echo
 done
 
-echo sudo service mysql start
+echo sudo apt-get install pure-ftpd
 echo
 echo Note: Your sudo password is your koding password.
+echo
+sudo apt-get install pure-ftpd
+
+#change dir to wordpress
+touch $OUT/"35-Changing directory to Wordpress"
+cd wordpress
+
+echo Starting MySQL service
+
+touch $OUT/"99.9-Starting MySQL. Please enter sudo password below:"
+echo
+echo sudo service mysql start
 echo
 sudo service mysql start
 

@@ -21,6 +21,8 @@ description =
           <p><b>If your installation did not go smoothly, reinstall WordPress by clicking this button: </b><p>
           <p><b>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>
           <img class="picture" src="https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67">
+          <p><b><br><br>After filling out the basic info and logging in, you will be brought here: </b></p>
+          <img class="picture" src="http://i.imgur.com/IUgwK3S.png">
           
           """
 
