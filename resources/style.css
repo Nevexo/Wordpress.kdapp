@@ -106,6 +106,8 @@
 }
 
 .WordPress-installer .WordPress-help a {
+  text-decoration: underline;
+  
 }
 
 .WordPress-installer .WordPress-help b {
