@@ -1,4 +1,4 @@
-/* Compiled by kdc on Fri Jul 18 2014 00:32:12 GMT+0000 (UTC) */
+/* Compiled by kdc on Fri Jul 18 2014 00:35:09 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
