@@ -1,8 +1,8 @@
-/* Compiled by kdc on Fri Jul 18 2014 00:09:57 GMT+0000 (UTC) */
+/* Compiled by kdc on Fri Jul 18 2014 00:12:23 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
-var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png, _ref,
+var AppName, LogWatcher, OutPath, WordPressMainView, WordpressController, description, domain, existingFile, launchURL, png, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -222,38 +222,38 @@ WordPressMainView = (function(_super) {
 
 })(KDView);
 
-WordPressController = (function(_super) {
-  __extends(WordPressController, _super);
+WordpressController = (function(_super) {
+  __extends(WordpressController, _super);
 
-  function WordPressController(options, data) {
+  function WordpressController(options, data) {
     if (options == null) {
       options = {};
     }
-    options.view = new WordPressMainView;
+    options.view = new WordpressMainView;
     options.appInfo = {
-      name: "WordPress",
+      name: "Wordpress",
       type: "application"
     };
-    WordPressController.__super__.constructor.call(this, options, data);
+    WordpressController.__super__.constructor.call(this, options, data);
   }
 
-  return WordPressController;
+  return WordpressController;
 
 })(AppController);
 
 (function() {
   var view;
   if (typeof appView !== "undefined" && appView !== null) {
-    view = new WordPressMainView;
+    view = new WordpressMainView;
     return appView.addSubView(view);
   } else {
-    return KD.registerAppClass(WordPressController, {
-      name: "WordPress",
+    return KD.registerAppClass(WordpressController, {
+      name: "Wordpress",
       routes: {
-        "/:name?/WordPress": null,
-        "/:name?/glang/Apps/WordPress": null
+        "/:name?/Wordpress": null,
+        "/:name?/glang/Apps/Wordpress": null
       },
-      dockPath: "/glang/Apps/WordPress",
+      dockPath: "/glang/Apps/Wordpress",
       behavior: "application"
     });
   }
