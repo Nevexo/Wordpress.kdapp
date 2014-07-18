@@ -1,11 +1,8 @@
-/* Compiled by kdc on Thu Jul 17 2014 23:58:06 GMT+0000 (UTC) */
+/* Compiled by kdc on Fri Jul 18 2014 00:09:57 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
-if (typeof window.appPreview !== "undefined" && window.appPreview !== null) {
-  var appView = window.appPreview
-}
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
-var AppName, LogWatcher, OutPath, WordPressMainView, WordpresstestController, description, domain, existingFile, launchURL, png,
+var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -13,13 +10,14 @@ LogWatcher = (function(_super) {
   __extends(LogWatcher, _super);
 
   function LogWatcher() {
-    return LogWatcher.__super__.constructor.apply(this, arguments);
+    _ref = LogWatcher.__super__.constructor.apply(this, arguments);
+    return _ref;
   }
 
   LogWatcher.prototype.fileAdded = function(change) {
-    var name, percentage, status, _ref;
+    var name, percentage, status, _ref1;
     name = change.file.name;
-    _ref = name.split('-'), percentage = _ref[0], status = _ref[1];
+    _ref1 = name.split('-'), percentage = _ref1[0], status = _ref1[1];
     return this.emit("UpdateProgress", percentage, status);
   };
 
@@ -53,115 +51,114 @@ WordPressMainView = (function(_super) {
   }
 
   WordPressMainView.prototype.viewAppended = function() {
-    return KD.singletons.appManager.require('Terminal', (function(_this) {
-      return function() {
-        _this.addSubView(_this.header = new KDHeaderView({
-          title: "" + AppName + " Installer",
-          type: "big"
-        }));
-        _this.addSubView(_this.toggle = new KDToggleButton({
-          cssClass: 'toggle-button',
-          style: "clean-gray",
-          defaultState: "Show details",
-          states: [
-            {
-              title: "Show details",
-              callback: function(cb) {
-                _this.terminal.setClass('in');
-                _this.toggle.setClass('toggle');
-                _this.terminal.webterm.setKeyView();
-                return typeof cb === "function" ? cb() : void 0;
-              }
-            }, {
-              title: "Hide details",
-              callback: function(cb) {
-                _this.terminal.unsetClass('in');
-                _this.toggle.unsetClass('toggle');
-                return typeof cb === "function" ? cb() : void 0;
-              }
+    var _this = this;
+    return KD.singletons.appManager.require('Terminal', function() {
+      _this.addSubView(_this.header = new KDHeaderView({
+        title: "" + AppName + " Installer",
+        type: "big"
+      }));
+      _this.addSubView(_this.toggle = new KDToggleButton({
+        cssClass: 'toggle-button',
+        style: "clean-gray",
+        defaultState: "Show details",
+        states: [
+          {
+            title: "Show details",
+            callback: function(cb) {
+              _this.terminal.setClass('in');
+              _this.toggle.setClass('toggle');
+              _this.terminal.webterm.setKeyView();
+              return typeof cb === "function" ? cb() : void 0;
             }
-          ]
-        }));
-        _this.addSubView(_this.logo = new KDCustomHTMLView({
-          tagName: 'img',
-          cssClass: 'logo',
-          attributes: {
-            src: png
+          }, {
+            title: "Hide details",
+            callback: function(cb) {
+              _this.terminal.unsetClass('in');
+              _this.toggle.unsetClass('toggle');
+              return typeof cb === "function" ? cb() : void 0;
+            }
           }
-        }));
-        _this.watcher = new LogWatcher;
-        _this.addSubView(_this.progress = new KDProgressBarView({
-          initial: 100,
-          title: "Checking installation..."
-        }));
-        _this.addSubView(_this.terminal = new TerminalPane({
-          cssClass: 'terminal'
-        }));
-        _this.addSubView(_this.button = new KDButtonView({
-          title: "Install " + AppName,
-          cssClass: 'main-button solid',
-          loader: {
-            color: "#FFFFFF",
-            diameter: 12
-          },
-          callback: function() {
-            return _this.installCallback();
-          }
-        }));
-        _this.addSubView(_this.link = new KDCustomHTMLView({
-          cssClass: 'hidden running-link'
-        }));
-        _this.link.setSession = function() {
-          this.updatePartial("Click here to launch " + AppName + ": <a target='_blank' href='" + launchURL + "'>" + launchURL + "</a>");
-          return this.show();
-        };
-        _this.addSubView(_this.content = new KDCustomHTMLView({
-          cssClass: "" + AppName + "-help",
-          partial: description
-        }));
-        _this.content.addSubView(_this.reinstallButton = new KDButtonView({
-          title: "Reinstall " + AppName,
-          cssClass: 'reinstall-button solid',
-          loader: {
-            color: "#FFFFFF",
-            diameter: 12
-          },
-          callback: function() {
-            _this.link.hide();
-            _this.progress.updateBar(100, '%', "Reinstalling WordPress");
-            _this.terminal.runCommand("rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r");
-            return _this.installCallback();
-          }
-        }));
-        return _this.checkState();
+        ]
+      }));
+      _this.addSubView(_this.logo = new KDCustomHTMLView({
+        tagName: 'img',
+        cssClass: 'logo',
+        attributes: {
+          src: png
+        }
+      }));
+      _this.watcher = new LogWatcher;
+      _this.addSubView(_this.progress = new KDProgressBarView({
+        initial: 100,
+        title: "Checking installation..."
+      }));
+      _this.addSubView(_this.terminal = new TerminalPane({
+        cssClass: 'terminal'
+      }));
+      _this.addSubView(_this.button = new KDButtonView({
+        title: "Install " + AppName,
+        cssClass: 'main-button solid',
+        loader: {
+          color: "#FFFFFF",
+          diameter: 12
+        },
+        callback: function() {
+          return _this.installCallback();
+        }
+      }));
+      _this.addSubView(_this.link = new KDCustomHTMLView({
+        cssClass: 'hidden running-link'
+      }));
+      _this.link.setSession = function() {
+        this.updatePartial("Click here to launch " + AppName + ": <a target='_blank' href='" + launchURL + "'>" + launchURL + "</a>");
+        return this.show();
       };
-    })(this));
+      _this.addSubView(_this.content = new KDCustomHTMLView({
+        cssClass: "" + AppName + "-help",
+        partial: description
+      }));
+      _this.content.addSubView(_this.reinstallButton = new KDButtonView({
+        title: "Reinstall " + AppName,
+        cssClass: 'reinstall-button solid',
+        loader: {
+          color: "#FFFFFF",
+          diameter: 12
+        },
+        callback: function() {
+          _this.link.hide();
+          _this.progress.updateBar(100, '%', "Reinstalling WordPress");
+          _this.terminal.runCommand("rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r");
+          return _this.installCallback();
+        }
+      }));
+      return _this.checkState();
+    });
   };
 
   WordPressMainView.prototype.checkState = function() {
-    var vmc;
+    var vmc,
+      _this = this;
     vmc = KD.getSingleton('vmController');
     this.button.showLoader();
-    return FSHelper.exists(existingFile, vmc.defaultVmName, (function(_this) {
-      return function(err, found) {
-        if (err) {
-          warn(err);
-        }
-        if (!found) {
-          _this.link.hide();
-          _this.progress.updateBar(100, '%', "" + AppName + " is not installed.");
-          return _this.switchState('install');
-        } else {
-          _this.progress.updateBar(100, '%', "" + AppName + " is installed.");
-          _this.link.setSession();
-          return _this.switchState('run');
-        }
-      };
-    })(this));
+    return FSHelper.exists(existingFile, vmc.defaultVmName, function(err, found) {
+      if (err) {
+        warn(err);
+      }
+      if (!found) {
+        _this.link.hide();
+        _this.progress.updateBar(100, '%', "" + AppName + " is not installed.");
+        return _this.switchState('install');
+      } else {
+        _this.progress.updateBar(100, '%', "" + AppName + " is installed.");
+        _this.link.setSession();
+        return _this.switchState('run');
+      }
+    });
   };
 
   WordPressMainView.prototype.switchState = function(state) {
-    var style, title;
+    var style, title,
+      _this = this;
     if (state == null) {
       state = 'run';
     }
@@ -170,11 +167,9 @@ WordPressMainView = (function(_super) {
       case 'install':
         title = "Install " + AppName;
         style = '';
-        this.button.setCallback((function(_this) {
-          return function() {
-            return _this.installCallback();
-          };
-        })(this));
+        this.button.setCallback(function() {
+          return _this.installCallback();
+        });
         break;
       case 'run':
         this.button.hide();
@@ -193,59 +188,56 @@ WordPressMainView = (function(_super) {
   };
 
   WordPressMainView.prototype.installCallback = function() {
-    var runScriptCommand, session, tmpOutPath, vmc;
-    this.watcher.on('UpdateProgress', (function(_this) {
-      return function(percentage, status) {
-        _this.progress.updateBar(percentage, '%', status);
-        if (percentage === "100") {
-          _this.button.hideLoader();
-          _this.toggle.setState('Show details');
-          _this.terminal.unsetClass('in');
-          _this.toggle.unsetClass('toggle');
-          _this.link.setSession();
-          return _this.switchState('run');
-        } else if (percentage === "0") {
-          _this.toggle.setState('Hide details');
-          _this.terminal.setClass('in');
-          _this.toggle.setClass('toggle');
-          return _this.terminal.webterm.setKeyView();
-        }
-      };
-    })(this));
+    var runScriptCommand, session, tmpOutPath, vmc,
+      _this = this;
+    this.watcher.on('UpdateProgress', function(percentage, status) {
+      _this.progress.updateBar(percentage, '%', status);
+      if (percentage === "100") {
+        _this.button.hideLoader();
+        _this.toggle.setState('Show details');
+        _this.terminal.unsetClass('in');
+        _this.toggle.unsetClass('toggle');
+        _this.link.setSession();
+        return _this.switchState('run');
+      } else if (percentage === "0") {
+        _this.toggle.setState('Hide details');
+        _this.terminal.setClass('in');
+        _this.toggle.setClass('toggle');
+        return _this.terminal.webterm.setKeyView();
+      }
+    });
     session = (Math.random() + 1).toString(36).substring(7);
     runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) " + session;
     tmpOutPath = "" + OutPath + "/" + session;
     vmc = KD.getSingleton('vmController');
-    return vmc.run("rm -rf " + OutPath + "; mkdir -p " + tmpOutPath, (function(_this) {
-      return function() {
-        _this.watcher.stopWatching();
-        _this.watcher.path = tmpOutPath;
-        _this.watcher.watch();
-        return _this.terminal.runCommand(runScriptCommand);
-      };
-    })(this));
+    return vmc.run("rm -rf " + OutPath + "; mkdir -p " + tmpOutPath, function() {
+      _this.watcher.stopWatching();
+      _this.watcher.path = tmpOutPath;
+      _this.watcher.watch();
+      return _this.terminal.runCommand(runScriptCommand);
+    });
   };
 
   return WordPressMainView;
 
 })(KDView);
 
-WordpresstestController = (function(_super) {
-  __extends(WordpresstestController, _super);
+WordPressController = (function(_super) {
+  __extends(WordPressController, _super);
 
-  function WordpresstestController(options, data) {
+  function WordPressController(options, data) {
     if (options == null) {
       options = {};
     }
     options.view = new WordPressMainView;
     options.appInfo = {
-      name: "Wordpresstest",
+      name: "WordPress",
       type: "application"
     };
-    WordpresstestController.__super__.constructor.call(this, options, data);
+    WordPressController.__super__.constructor.call(this, options, data);
   }
 
-  return WordpresstestController;
+  return WordPressController;
 
 })(AppController);
 
@@ -255,13 +247,13 @@ WordpresstestController = (function(_super) {
     view = new WordPressMainView;
     return appView.addSubView(view);
   } else {
-    return KD.registerAppClass(WordpresstestController, {
-      name: "Wordpresstest",
+    return KD.registerAppClass(WordPressController, {
+      name: "WordPress",
       routes: {
-        "/:name?/Wordpresstest": null,
-        "/:name?/glang/Apps/Wordpresstest": null
+        "/:name?/WordPress": null,
+        "/:name?/glang/Apps/WordPress": null
       },
-      dockPath: "/glang/Apps/Wordpresstest",
+      dockPath: "/glang/Apps/WordPress",
       behavior: "application"
     });
   }

@@ -186,12 +186,12 @@ class WordPressMainView extends KDView
 
 
 
-class WordpresstestController extends AppController
+class WordPressController extends AppController
 
   constructor:(options = {}, data)->
     options.view    = new WordPressMainView
     options.appInfo =
-      name : "Wordpresstest"
+      name : "WordPress"
       type : "application"
 
     super options, data
@@ -206,10 +206,10 @@ do ->
 
   else
 
-    KD.registerAppClass WordpresstestController,
-      name     : "Wordpresstest"
+    KD.registerAppClass WordPressController,
+      name     : "WordPress"
       routes   :
-        "/:name?/Wordpresstest" : null
-        "/:name?/glang/Apps/Wordpresstest" : null
-      dockPath : "/glang/Apps/Wordpresstest"
+        "/:name?/WordPress" : null
+        "/:name?/glang/Apps/WordPress" : null
+      dockPath : "/glang/Apps/WordPress"
       behavior : "application"
