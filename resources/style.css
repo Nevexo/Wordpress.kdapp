@@ -2,6 +2,25 @@
  overflow: auto; 
 }
 
+.progressbar-container {
+ height: 40px !important; 
+ border-radius: 5px;
+}
+
+.progressbar-container span{
+ text-shadow: none !important;
+}
+
+.progressbar-container .bar span{
+ text-shadow: none !important;
+}
+
+.light-label {
+  top: 13px !important;
+  left: 13px !important;
+  font-size: 15px !important;
+}
+
 .WordPress-installer {
   padding: 0 10px 10px;
   width: 800px;
@@ -16,9 +35,15 @@
 
 .WordPress-installer .toggle-button {
   position: absolute;
-  top: 264px;
-  right: 12px;
+  top: 269px;
+  right: 17px;
   z-index: 4;
+  height: 28px;
+  width: 100px;
+}
+
+.WordPress-installer .toggle-button > .button-title {
+ font-size: 12px; 
 }
 
 .WordPress-installer .logo {
@@ -45,7 +70,8 @@
 }
 
 .WordPress-installer .main-button {
-  background: SeaGreen;
+  background: #1AAF5D;
+  top: -4px;
   margin:15px;
   left: 150px;
   width:260px;
@@ -53,16 +79,20 @@
   margin-left:-150px;
 }
 
-.WordPress-installer .main-button .button-title {
- color: white !important; 
-}
 
 .WordPress-installer .main-button.loading > .button-title {
   visibility: hidden;
 }
 
+.WordPress-installer .main-button .button-title {
+ font-size: 14px !important;
+ line-height: 0 !important;
+ color: white !important; 
+}
+
 .WordPress-installer .remove-button {
-  background: FireBrick; 
+  background: FireBrick;
+  top: -4px;
   margin:15px;
   left: 170px;
   width: 260px;
@@ -71,20 +101,26 @@
 }
 
 .WordPress-installer .remove-button .button-title {
+ font-size: 14px !important;
+ line-height: 0 !important;
  color: white !important; 
 }
 
+.WordPress-installer .remove-button.loading > .button-title {
+  visibility: hidden;
+}
+
 .WordPress-installer .reinstall-button {
+  top: -4px;
   margin:15px;
   left: 565px;
-  top: 0px;
+  width: 260px;
   height: 40px !important;
-  width:260px;
   margin-left:-150px;
 }
 
 .WordPress-installer .reinstall-button .button-title {
- font-size: 12px !important;
+ font-size: 14px !important;
  line-height: 0 !important;
  color: white !important; 
 }
@@ -126,8 +162,7 @@
 
 .WordPress-installer .WordPress-help a {
   text-decoration: underline;
-  color: black;
-  
+  color: black; 
 }
 
 .WordPress-installer .WordPress-help b {
