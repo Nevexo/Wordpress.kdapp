@@ -18,8 +18,7 @@ description =
           <p><b>WordPress</b> is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>        
           <p>You can see some <b><a href="http://WordPress.org/showcase/">examples </a></b> of sites that have used WordPress among which 
           include The New York Times Blog, TechCrunch, Flickr, and many others. If you are new to WordPress, be sure to check out the <b><a href="https://codex.WordPress.org/WordPress_Lessons">WordPress Lessons</a></b>, and the <b><a href="https://WordPress.org/news/">WordPress blog</a></b>.</p>
-          <p><b>If your installation did not go smoothly, reinstall WordPress by clicking this button: </b><p>
-          <p><b>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>
+          <p><b><br>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>
           <img class="picture" src="https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67">
           <p><b><br><br>After filling out the basic info and logging in, you will be brought here: </b></p>
           <img class="picture" src="http://i.imgur.com/IUgwK3S.png">
@@ -82,6 +81,13 @@ class WordPressMainView extends KDView
       @addSubView @terminal = new TerminalPane
         cssClass      : 'terminal'
 
+      @addSubView @link = new KDCustomHTMLView
+        cssClass : 'hidden running-link'
+        
+      @link.setSession = ->
+        @updatePartial "Click here to launch #{AppName}: <a target='_blank' href='#{launchURL}'>#{launchURL}</a>"
+        @show()        
+        
       @addSubView @button = new KDButtonView
         title         : "Install #{AppName}"
         cssClass      : 'main-button solid'
@@ -89,19 +95,8 @@ class WordPressMainView extends KDView
           color       : "#FFFFFF"
           diameter    : 12
         callback      : => @installCallback() 
-
-      @addSubView @link = new KDCustomHTMLView
-        cssClass : 'hidden running-link'
         
-      @link.setSession = ->
-        @updatePartial "Click here to launch #{AppName}: <a target='_blank' href='#{launchURL}'>#{launchURL}</a>"
-        @show()
-
-      @addSubView @content = new KDCustomHTMLView
-        cssClass : "#{AppName}-help"
-        partial  : description
-        
-      @content.addSubView @reinstallButton = new KDButtonView
+      @addSubView @reinstallButton = new KDButtonView
         title         : "Reinstall #{AppName}"
         cssClass      : 'reinstall-button solid'
         loader        :
@@ -112,6 +107,25 @@ class WordPressMainView extends KDView
           @progress.updateBar 100, '%', "Reinstalling WordPress"
           @terminal.runCommand "rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r"
           @installCallback()
+          
+      @addSubView @removeButton = new KDButtonView
+        title         : "Remove #{AppName}"
+        cssClass      : 'remove-button solid'
+        loader        :
+          color       : "#FFFFFF"
+          diameter    : 12
+        callback      : => 
+          @link.hide()
+          @progress.updateBar 100, '%', "Removing WordPress"
+          @terminal.runCommand "rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r"
+          KD.utils.wait 2000, =>
+            @checkState()
+            @removeButton.hideLoader()
+            @button.show()
+
+      @addSubView @content = new KDCustomHTMLView
+        cssClass : "#{AppName}-help"
+        partial  : description
         
       @checkState()   
 

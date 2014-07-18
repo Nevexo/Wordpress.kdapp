@@ -45,29 +45,48 @@
 }
 
 .WordPress-installer .main-button {
+  background: SeaGreen;
   margin:15px;
-  left:50%;
-  width:300px;
-  min-height: 40px;
+  left: 150px;
+  width:260px;
+  height: 40px !important;
   margin-left:-150px;
+}
+
+.WordPress-installer .main-button .button-title {
+ color: white !important; 
 }
 
 .WordPress-installer .main-button.loading > .button-title {
   visibility: hidden;
 }
 
+.WordPress-installer .remove-button {
+  background: FireBrick; 
+  margin:15px;
+  left: 170px;
+  width: 260px;
+  height: 40px !important;
+  margin-left:-150px;
+}
+
+.WordPress-installer .remove-button .button-title {
+ color: white !important; 
+}
+
 .WordPress-installer .reinstall-button {
   margin:15px;
-  left:740px;
-  top:-3366px;
-  width:200px;
-  height: 20px;
+  left: 565px;
+  top: 0px;
+  height: 40px !important;
+  width:260px;
   margin-left:-150px;
 }
 
 .WordPress-installer .reinstall-button .button-title {
-  font-size: 12px !important;
-  line-height: 0 !important;
+ font-size: 12px !important;
+ line-height: 0 !important;
+ color: white !important; 
 }
 
 .WordPress-installer .reinstall-button.loading > .button-title {
