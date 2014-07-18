@@ -2,9 +2,15 @@
  overflow: auto; 
 }
 
+.running-link {
+ width: 800px; 
+ border-radius: 5px;
+}
+
 .progressbar-container {
  height: 40px !important; 
  border-radius: 5px;
+ width: 800px;
 }
 
 .progressbar-container span{
@@ -36,7 +42,7 @@
 .WordPress-installer .toggle-button {
   position: absolute;
   top: 269px;
-  right: 17px;
+  left: 703px;
   z-index: 4;
   height: 28px;
   width: 100px;
