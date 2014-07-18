@@ -1,8 +1,8 @@
-/* Compiled by kdc on Fri Jul 18 2014 00:12:23 GMT+0000 (UTC) */
+/* Compiled by kdc on Fri Jul 18 2014 00:17:29 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
-var AppName, LogWatcher, OutPath, WordPressMainView, WordpressController, description, domain, existingFile, launchURL, png, _ref,
+var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -222,32 +222,32 @@ WordPressMainView = (function(_super) {
 
 })(KDView);
 
-WordpressController = (function(_super) {
-  __extends(WordpressController, _super);
+WordPressController = (function(_super) {
+  __extends(WordPressController, _super);
 
-  function WordpressController(options, data) {
+  function WordPressController(options, data) {
     if (options == null) {
       options = {};
     }
-    options.view = new WordpressMainView;
+    options.view = new WordPressMainView;
     options.appInfo = {
       name: "Wordpress",
       type: "application"
     };
-    WordpressController.__super__.constructor.call(this, options, data);
+    WordPressController.__super__.constructor.call(this, options, data);
   }
 
-  return WordpressController;
+  return WordPressController;
 
 })(AppController);
 
 (function() {
   var view;
   if (typeof appView !== "undefined" && appView !== null) {
-    view = new WordpressMainView;
+    view = new WordPressMainView;
     return appView.addSubView(view);
   } else {
-    return KD.registerAppClass(WordpressController, {
+    return KD.registerAppClass(WordPressController, {
       name: "Wordpress",
       routes: {
         "/:name?/Wordpress": null,

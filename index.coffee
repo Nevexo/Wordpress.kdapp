@@ -186,10 +186,10 @@ class WordPressMainView extends KDView
 
 
 
-class WordpressController extends AppController
+class WordPressController extends AppController
 
   constructor:(options = {}, data)->
-    options.view    = new WordpressMainView
+    options.view    = new WordPressMainView
     options.appInfo =
       name : "Wordpress"
       type : "application"
@@ -201,12 +201,12 @@ do ->
   # In live mode you can add your App view to window's appView
   if appView?
 
-    view = new WordpressMainView
+    view = new WordPressMainView
     appView.addSubView view
 
   else
 
-    KD.registerAppClass WordpressController,
+    KD.registerAppClass WordPressController,
       name     : "Wordpress"
       routes   :
         "/:name?/Wordpress" : null
