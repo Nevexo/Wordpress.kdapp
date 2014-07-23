@@ -1,13 +1,14 @@
-/* Compiled by kdc on Mon Jul 21 2014 17:54:33 GMT+0000 (UTC) */
+/* Compiled by kdc on Wed Jul 23 2014 19:03:15 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 if (typeof window.appPreview !== "undefined" && window.appPreview !== null) {
   var appView = window.appPreview
 }
 /* BLOCK STARTS: /home/glang/Applications/Wordpress.kdapp/index.coffee */
-var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png,
+var AppName, LogWatcher, OutPath, WordPressController, WordPressMainView, description, domain, existingFile, launchURL, png, vmc,
   __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 LogWatcher = (function(_super) {
   __extends(LogWatcher, _super);
@@ -41,6 +42,8 @@ launchURL = "http://" + domain + "/wordpress";
 
 description = "<p><br><b>Note: A MySQL database named \"wordpress_db\" will be created for user \"root\". </b></p>\n<p><b>WordPress</b> is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>        \n<p>You can see some <b><a href=\"http://WordPress.org/showcase/\">examples </a></b> of sites that have used WordPress among which \ninclude The New York Times Blog, TechCrunch, Flickr, and many others. If you are new to WordPress, be sure to check out the <b><a href=\"https://codex.WordPress.org/WordPress_Lessons\">WordPress Lessons</a></b>, and the <b><a href=\"https://WordPress.org/news/\">WordPress blog</a></b>.</p>\n<p><b><br>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>\n<img class=\"picture\" src=\"https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67\">\n<p><b><br><br>After filling out the basic info and logging in, you will be brought here: </b></p>\n<img class=\"picture\" src=\"http://i.imgur.com/IUgwK3S.png\">\n<p><b><br><br>Want to install a new theme or plugin? When prompted for connection information, enter this: </b></p>\n<p><b>Hostname: localhost</b></p>\n<p><b>FTP Username: Your Koding Username</b></p>\n<p><b>FTP Password: Your Koding Password</b></p>\n<img class=\"picture\" src=\"http://i.imgur.com/zg9o6lZ.png\">\n<p><b><br><br>And here is a preview on the freshly installed theme: </b></p>\n<img class=\"picture\" src=\"http://i.imgur.com/qycJmsH.png\">\n<p><b><br>That's it for the WordPress on Koding Guide! Have fun!</b></p>\n";
 
+vmc = KD.getSingleton('vmController');
+
 WordPressMainView = (function(_super) {
   __extends(WordPressMainView, _super);
 
@@ -48,6 +51,8 @@ WordPressMainView = (function(_super) {
     if (options == null) {
       options = {};
     }
+    this.updateTerminal = __bind(this.updateTerminal, this);
+    this.turnOnVM = __bind(this.turnOnVM, this);
     options.cssClass = "" + AppName + "-installer";
     WordPressMainView.__super__.constructor.call(this, options, data);
   }
@@ -55,32 +60,12 @@ WordPressMainView = (function(_super) {
   WordPressMainView.prototype.viewAppended = function() {
     return KD.singletons.appManager.require('Terminal', (function(_this) {
       return function() {
+        _this.addSubView(new TerminalPane({
+          cssClass: 'hidden'
+        }));
         _this.addSubView(_this.header = new KDHeaderView({
           title: "" + AppName + " Installer",
           type: "big"
-        }));
-        _this.addSubView(_this.toggle = new KDToggleButton({
-          cssClass: 'toggle-button',
-          style: "clean-gray",
-          defaultState: "Show details",
-          states: [
-            {
-              title: "Show details",
-              callback: function(cb) {
-                _this.terminal.setClass('in');
-                _this.toggle.setClass('toggle');
-                _this.terminal.webterm.setKeyView();
-                return typeof cb === "function" ? cb() : void 0;
-              }
-            }, {
-              title: "Hide details",
-              callback: function(cb) {
-                _this.terminal.unsetClass('in');
-                _this.toggle.unsetClass('toggle');
-                return typeof cb === "function" ? cb() : void 0;
-              }
-            }
-          ]
         }));
         _this.addSubView(_this.logo = new KDCustomHTMLView({
           tagName: 'img',
@@ -92,9 +77,9 @@ WordPressMainView = (function(_super) {
         _this.watcher = new LogWatcher;
         _this.addSubView(_this.progress = new KDProgressBarView({
           initial: 100,
-          title: "Checking installation..."
+          title: "Checking VM State..."
         }));
-        _this.addSubView(_this.terminal = new TerminalPane({
+        _this.addSubView(_this.terminalPlaceholder = new KDView({
           cssClass: 'terminal'
         }));
         _this.addSubView(_this.link = new KDCustomHTMLView({
@@ -125,7 +110,7 @@ WordPressMainView = (function(_super) {
           callback: function() {
             _this.link.hide();
             _this.progress.updateBar(100, '%', "Reinstalling WordPress");
-            _this.terminal.runCommand("rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r");
+            _this.terminal.runCommand("rm ~/Web/wordpress -r");
             return _this.installCallback();
           }
         }));
@@ -139,7 +124,7 @@ WordPressMainView = (function(_super) {
           callback: function() {
             _this.link.hide();
             _this.progress.updateBar(100, '%', "Removing WordPress");
-            _this.terminal.runCommand("rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r");
+            _this.terminal.runCommand("rm ~/Web/wordpress -r");
             return KD.utils.wait(2000, function() {
               _this.checkState();
               _this.removeButton.hideLoader();
@@ -151,17 +136,84 @@ WordPressMainView = (function(_super) {
           cssClass: "" + AppName + "-help",
           partial: description
         }));
-        return _this.checkState();
+        return _this.vmState();
       };
     })(this));
   };
 
-  WordPressMainView.prototype.checkState = function() {
-    var vmc;
-    vmc = KD.getSingleton('vmController');
+  WordPressMainView.prototype.vmState = function() {
     this.button.showLoader();
-    this.reinstallButton.showLoader();
-    this.removeButton.showLoader();
+    this.reinstallButton.hide();
+    this.removeButton.hide();
+    return vmc.run("echo 'on'", (function(_this) {
+      return function(err, res) {
+        if (res.stdout.trim() === "on") {
+          _this.terminalPlaceholder.addSubView(_this.terminal = new TerminalPane({
+            cssClass: "terminal"
+          }));
+          return _this.updateTerminal();
+        } else {
+          _this.progress.updateBar(100, '%', "Turning on VM...");
+          return KD.utils.wait(1000, function() {
+            return _this.turnOnVM();
+          });
+        }
+      };
+    })(this));
+  };
+
+  WordPressMainView.prototype.turnOnVM = function() {
+    var repeat;
+    return repeat = KD.utils.repeat(1000, (function(_this) {
+      return function() {
+        return vmc.run("echo 'turn on'", function(err, res) {
+          if (res.stdout.trim() === "turn on") {
+            KD.utils.killRepeat(repeat);
+            _this.updateTerminal();
+          }
+          return console.log("stdout: " + res.stdout + " stderr: " + res.stderr);
+        });
+      };
+    })(this));
+  };
+
+  WordPressMainView.prototype.updateTerminal = function() {
+    this.terminalPlaceholder.addSubView(this.terminal = new TerminalPane({
+      cssClass: "terminal"
+    }));
+    this.addSubView(this.toggle = new KDToggleButton({
+      cssClass: 'toggle-button',
+      style: "clean-gray",
+      defaultState: "Show details",
+      states: [
+        {
+          title: "Show details",
+          callback: (function(_this) {
+            return function(cb) {
+              _this.terminalPlaceholder.setClass('in');
+              _this.terminal.setClass('in');
+              _this.toggle.setClass('toggle');
+              _this.terminal.webterm.setKeyView();
+              return typeof cb === "function" ? cb() : void 0;
+            };
+          })(this)
+        }, {
+          title: "Hide details",
+          callback: (function(_this) {
+            return function(cb) {
+              _this.terminalPlaceholder.unsetClass('in');
+              _this.terminal.unsetClass('in');
+              _this.toggle.unsetClass('toggle');
+              return typeof cb === "function" ? cb() : void 0;
+            };
+          })(this)
+        }
+      ]
+    }));
+    return this.checkState();
+  };
+
+  WordPressMainView.prototype.checkState = function() {
     return FSHelper.exists(existingFile, vmc.defaultVmName, (function(_this) {
       return function(err, found) {
         if (err) {
@@ -169,6 +221,9 @@ WordPressMainView = (function(_super) {
         }
         if (!found) {
           _this.link.hide();
+          _this.removeButton.hide();
+          _this.reinstallButton.hide();
+          _this.button.setClass('notCentered');
           _this.progress.updateBar(100, '%', "" + AppName + " is not installed.");
           return _this.switchState('install');
         } else {
@@ -198,13 +253,14 @@ WordPressMainView = (function(_super) {
         break;
       case 'run':
         this.button.hide();
+        this.reinstallButton.show();
+        this.removeButton.show();
+        this.reinstallButton.hideLoader();
     }
     this.button.unsetClass('red green');
     this.button.setClass(style);
     this.button.setTitle(title || ("Run " + AppName));
-    this.button.hideLoader();
-    this.reinstallButton.hideLoader();
-    return this.removeButton.hideLoader();
+    return this.button.hideLoader();
   };
 
   WordPressMainView.prototype.stopCallback = function() {
@@ -214,7 +270,7 @@ WordPressMainView = (function(_super) {
   };
 
   WordPressMainView.prototype.installCallback = function() {
-    var runScriptCommand, session, tmpOutPath, vmc;
+    var runScriptCommand, session, tmpOutPath;
     this.watcher.on('UpdateProgress', (function(_this) {
       return function(percentage, status) {
         _this.progress.updateBar(percentage, '%', status);
@@ -222,12 +278,14 @@ WordPressMainView = (function(_super) {
           _this.button.hideLoader();
           _this.toggle.setState('Show details');
           _this.terminal.unsetClass('in');
+          _this.terminalPlaceholder.unsetClass('in');
           _this.toggle.unsetClass('toggle');
           _this.link.setSession();
           return _this.switchState('run');
         } else if (percentage === "0") {
           _this.toggle.setState('Hide details');
           _this.terminal.setClass('in');
+          _this.terminalPlaceholder.setClass('in');
           _this.toggle.setClass('toggle');
           return _this.terminal.webterm.setKeyView();
         }
@@ -236,7 +294,6 @@ WordPressMainView = (function(_super) {
     session = (Math.random() + 1).toString(36).substring(7);
     runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) " + session;
     tmpOutPath = "" + OutPath + "/" + session;
-    vmc = KD.getSingleton('vmController');
     return vmc.run("rm -rf " + OutPath + "; mkdir -p " + tmpOutPath, (function(_this) {
       return function() {
         _this.watcher.stopWatching();
