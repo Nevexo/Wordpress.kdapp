@@ -20,7 +20,7 @@ do
    echo
 done
 
-echo sudo apt-get install pure-ftpd -y
+echo sudo apt-get -y install pure-ftpd
 echo
 echo Note: Your sudo password is your koding password.
 echo
