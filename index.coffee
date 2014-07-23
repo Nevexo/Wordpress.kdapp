@@ -11,24 +11,24 @@ domain     = "#{KD.nick()}.kd.io"
 OutPath    = "/tmp/_WordPressinstaller.out"
 existingFile    = "~/Web/wordpress/wp-config.php"
 png = "https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/wordpress.png"
-launchURL = "http://#{domain}/wordpress"
+launchURL = "https://#{domain}/wordpress"
 description = 
           """
           <p><br><b>Note: A MySQL database named "wordpress_db" will be created for user "root". </b></p>
           <p><b>WordPress</b> is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL, which runs on a web hosting service. Features include a plug-in architecture and a template system. WordPress is used by more than 18.9% of the top 10 million websites as of August 2013. WordPress is the most popular blogging system in use on the Web, at more than 60 million websites.</p>        
-          <p>You can see some <b><a href="http://WordPress.org/showcase/">examples </a></b> of sites that have used WordPress among which 
+          <p>You can see some <b><a href="https://WordPress.org/showcase/">examples </a></b> of sites that have used WordPress among which 
           include The New York Times Blog, TechCrunch, Flickr, and many others. If you are new to WordPress, be sure to check out the <b><a href="https://codex.WordPress.org/WordPress_Lessons">WordPress Lessons</a></b>, and the <b><a href="https://WordPress.org/news/">WordPress blog</a></b>.</p>
           <p><b><br>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>
           <img class="picture" src="https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67">
           <p><b><br><br>After filling out the basic info and logging in, you will be brought here: </b></p>
-          <img class="picture" src="http://i.imgur.com/IUgwK3S.png">
+          <img class="picture" src="https://i.imgur.com/IUgwK3S.png">
           <p><b><br><br>Want to install a new theme or plugin? When prompted for connection information, enter this: </b></p>
           <p><b>Hostname: localhost</b></p>
           <p><b>FTP Username: Your Koding Username</b></p>
           <p><b>FTP Password: Your Koding Password</b></p>
-          <img class="picture" src="http://i.imgur.com/zg9o6lZ.png">
+          <img class="picture" src="https://i.imgur.com/zg9o6lZ.png">
           <p><b><br><br>And here is a preview on the freshly installed theme: </b></p>
-          <img class="picture" src="http://i.imgur.com/qycJmsH.png">
+          <img class="picture" src="https://i.imgur.com/qycJmsH.png">
           <p><b><br>That's it for the WordPress on Koding Guide! Have fun!</b></p>
           
           """
