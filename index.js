@@ -1,4 +1,4 @@
-/* Compiled by kdc on Fri Jul 18 2014 21:36:25 GMT+0000 (UTC) */
+/* Compiled by kdc on Mon Jul 21 2014 17:54:33 GMT+0000 (UTC) */
 (function() {
 /* KDAPP STARTS */
 if (typeof window.appPreview !== "undefined" && window.appPreview !== null) {
@@ -160,6 +160,8 @@ WordPressMainView = (function(_super) {
     var vmc;
     vmc = KD.getSingleton('vmController');
     this.button.showLoader();
+    this.reinstallButton.showLoader();
+    this.removeButton.showLoader();
     return FSHelper.exists(existingFile, vmc.defaultVmName, (function(_this) {
       return function(err, found) {
         if (err) {
@@ -201,7 +203,8 @@ WordPressMainView = (function(_super) {
     this.button.setClass(style);
     this.button.setTitle(title || ("Run " + AppName));
     this.button.hideLoader();
-    return this.reinstallButton.hideLoader();
+    this.reinstallButton.hideLoader();
+    return this.removeButton.hideLoader();
   };
 
   WordPressMainView.prototype.stopCallback = function() {

@@ -32,9 +32,9 @@ description =
           <p><b><br>That's it for the WordPress on Koding Guide! Have fun!</b></p>
           
           """
+vmc = KD.getSingleton 'vmController'          
 
 class WordPressMainView extends KDView
-
   constructor:(options = {}, data)->
     options.cssClass = "#{AppName}-installer"
     super options, data
@@ -42,29 +42,12 @@ class WordPressMainView extends KDView
   viewAppended:-> 
   
     KD.singletons.appManager.require 'Terminal', => 
-
+      @addSubView new TerminalPane
+        cssClass: 'hidden'   
+    
       @addSubView @header = new KDHeaderView
         title         : "#{AppName} Installer"
         type          : "big"
-
-      @addSubView @toggle = new KDToggleButton
-        cssClass        : 'toggle-button'
-        style           : "clean-gray" 
-        defaultState    : "Show details"
-        states          : [
-          title         : "Show details"
-          callback      : (cb)=>
-            @terminal.setClass 'in'
-            @toggle.setClass 'toggle'
-            @terminal.webterm.setKeyView()
-            cb?()
-        ,
-          title         : "Hide details"
-          callback      : (cb)=>
-            @terminal.unsetClass 'in'
-            @toggle.unsetClass 'toggle'
-            cb?()
-        ]
 
       @addSubView @logo = new KDCustomHTMLView
         tagName       : 'img'
@@ -76,9 +59,9 @@ class WordPressMainView extends KDView
 
       @addSubView @progress = new KDProgressBarView
         initial       : 100
-        title         : "Checking installation..."
+        title         : "Checking VM State..."
 
-      @addSubView @terminal = new TerminalPane
+      @addSubView @terminalPlaceholder = new KDView
         cssClass      : 'terminal'
 
       @addSubView @link = new KDCustomHTMLView
@@ -105,7 +88,7 @@ class WordPressMainView extends KDView
         callback      : => 
           @link.hide()
           @progress.updateBar 100, '%', "Reinstalling WordPress"
-          @terminal.runCommand "rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r"
+          @terminal.runCommand "rm ~/Web/wordpress -r"
           @installCallback()
           
       @addSubView @removeButton = new KDButtonView
@@ -117,7 +100,7 @@ class WordPressMainView extends KDView
         callback      : => 
           @link.hide()
           @progress.updateBar 100, '%', "Removing WordPress"
-          @terminal.runCommand "rm /tmp/_WordPressinstaller.out -r && rm ~/Web/wordpress -r"
+          @terminal.runCommand "rm ~/Web/wordpress -r"
           KD.utils.wait 2000, =>
             @checkState()
             @removeButton.hideLoader()
@@ -126,27 +109,75 @@ class WordPressMainView extends KDView
       @addSubView @content = new KDCustomHTMLView
         cssClass : "#{AppName}-help"
         partial  : description
-        
-      @checkState()   
+
+      @vmState() 
+
+  vmState:->
+    @button.showLoader()
+    @reinstallButton.hide()
+    @removeButton.hide()
+    
+    vmc.run "echo 'on'", (err, res) =>
+      if (res.stdout.trim() is "on")
+        @terminalPlaceholder.addSubView @terminal = new TerminalPane
+          cssClass : "terminal"         
+        @updateTerminal()
+      else
+        @progress.updateBar 100, '%', "Turning on VM..."
+        KD.utils.wait 1000, => 
+          @turnOnVM()
+
+  turnOnVM:=>
+    repeat = KD.utils.repeat 1000, =>
+      vmc.run "echo 'turn on'", (err, res) =>
+        if (res.stdout.trim() is "turn on")
+          KD.utils.killRepeat repeat          
+          @updateTerminal()
+          
+        console.log("stdout: #{res.stdout} stderr: #{res.stderr}")       
+
+  updateTerminal:=>
+    @terminalPlaceholder.addSubView @terminal = new TerminalPane
+      cssClass : "terminal" 
+    
+    @addSubView @toggle = new KDToggleButton
+      cssClass        : 'toggle-button'
+      style           : "clean-gray" 
+      defaultState    : "Show details"
+      states          : [
+        title         : "Show details"
+        callback      : (cb)=>
+          @terminalPlaceholder.setClass 'in'
+          @terminal.setClass 'in'
+          @toggle.setClass 'toggle'
+          @terminal.webterm.setKeyView()
+          cb?()
+      ,
+        title         : "Hide details"
+        callback      : (cb)=>
+          @terminalPlaceholder.unsetClass 'in'
+          @terminal.unsetClass 'in'
+          @toggle.unsetClass 'toggle'
+          cb?()
+      ]
+      
+    @checkState()
 
   checkState:->
-
-    vmc = KD.getSingleton 'vmController'
-
-    @button.showLoader()
-
     FSHelper.exists existingFile, vmc.defaultVmName, (err, found)=>
       warn err if err
       
       unless found
         @link.hide()
+        @removeButton.hide()
+        @reinstallButton.hide()
+        @button.setClass 'notCentered'
         @progress.updateBar 100, '%', "#{AppName} is not installed."
         @switchState 'install'
       else
         @progress.updateBar 100, '%', "#{AppName} is installed."
         @link.setSession()
-        @switchState 'run'
-
+        @switchState 'run'        
   
   switchState:(state = 'run')->
 
@@ -159,12 +190,15 @@ class WordPressMainView extends KDView
         @button.setCallback => @installCallback()
       when 'run'
         @button.hide()
+        @reinstallButton.show()
+        @removeButton.show()
+        @reinstallButton.hideLoader()
 
     @button.unsetClass 'red green'
     @button.setClass style
     @button.setTitle title or "Run #{AppName}"
     @button.hideLoader()
-    @reinstallButton.hideLoader()
+    
 
   stopCallback:->
     @_lastRequest = 'stop'
@@ -178,6 +212,7 @@ class WordPressMainView extends KDView
         @button.hideLoader()
         @toggle.setState 'Show details'
         @terminal.unsetClass 'in'
+        @terminalPlaceholder.unsetClass 'in'
         @toggle.unsetClass 'toggle'
         @link.setSession()
         @switchState 'run'
@@ -185,13 +220,13 @@ class WordPressMainView extends KDView
       else if percentage is "0"
         @toggle.setState 'Hide details'
         @terminal.setClass 'in'
+        @terminalPlaceholder.setClass 'in'
         @toggle.setClass 'toggle'
         @terminal.webterm.setKeyView()
 
     session = (Math.random() + 1).toString(36).substring 7
     runScriptCommand = "bash <(curl --silent https://raw.githubusercontent.com/glang/Wordpress.kdapp/master/newInstaller.sh) #{session}"        
     tmpOutPath = "#{OutPath}/#{session}"
-    vmc = KD.getSingleton 'vmController'
     vmc.run "rm -rf #{OutPath}; mkdir -p #{tmpOutPath}", =>
       @watcher.stopWatching()
       @watcher.path = tmpOutPath
