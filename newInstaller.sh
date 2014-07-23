@@ -24,7 +24,7 @@ echo sudo apt-get -y install pure-ftpd
 echo
 echo Note: Your sudo password is your koding password.
 echo
-sudo apt-get install pure-ftpd
+sudo apt-get -y install pure-ftpd
 
 #change dir to wordpress
 touch $OUT/"35-Changing directory to Wordpress"
