@@ -59,6 +59,7 @@
 .WordPress-installer .terminal {
   background:#333;
   height:0;
+  width: 800px;
   max-height:400px;
 
   -webkit-transition: height .3s ease-in;
