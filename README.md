@@ -11,7 +11,7 @@ _________________________
 
 
 
-If your installation was successful, this is what you should see when clicking the generated URL: 
+Once the setup is complete, click on the presented link to finish configuring your WordPress installation:
 --------------------------
 
 

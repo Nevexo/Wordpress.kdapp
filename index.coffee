@@ -21,7 +21,7 @@ description =
           <p>You can see some <b><a href="http://WordPress.org/showcase/">examples </a></b> of sites that have used WordPress among which 
           include The New York Times Blog, TechCrunch, Flickr, and many others. If you are new to WordPress, be sure to check out the <b><a href="https://codex.WordPress.org/WordPress_Lessons">WordPress Lessons</a></b>, and the <b><a href="https://WordPress.org/news/">WordPress blog</a></b>.</p>
           <hr>
-          <p><b><br>If your installation was successful, this is what you should see when clicking the generated URL: </b></p>
+          <p><b><br>Once the setup is complete, click on the presented link to finish configuring your WordPress installation: </b></p>
           <img class="picture" src="https://camo.githubusercontent.com/151ba1700b1201678839e8c235c7d25352359080/687474703a2f2f692e696d6775722e636f6d2f493477675075782e706e67">
           <hr>
           <p><b><br><br>After filling out the basic info and logging in, you will be brought here: </b></p>
