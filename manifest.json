@@ -6,7 +6,7 @@
   "behavior": "application",
   "version": "0.1",
   "title": "WordPress",
-  "name": "WordPress",
+  "name": "Wordpress",
   "identifier": "com.koding.apps.wordpress",
   "path": "~/Applications/Wordpress.kdapp",
   "homepage": "glang.kd.io/wordpress",
